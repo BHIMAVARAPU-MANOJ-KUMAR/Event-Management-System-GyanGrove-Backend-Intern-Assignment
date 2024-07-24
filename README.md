@@ -50,3 +50,19 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ```sh
 git clone https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment.git
 cd Event-Management-System-GyanGrove-Backend-Intern-Assignment
+```
+
+2. **Build the Project**
+```sh
+mvn clean install
+```
+
+3. **Run the Application**
+```sh
+mvn spring-boot:run
+```
+
+4. **Access the Application**
+```sh
+Access the Application on `http://localhost:8090/api/v1/**/**`
+```
