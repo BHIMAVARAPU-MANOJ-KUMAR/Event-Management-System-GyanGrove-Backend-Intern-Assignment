@@ -35,6 +35,7 @@ This project is a RESTful service that manages and queries event data based on a
 - **Database Optimization**: Implement further optimizations as data grows, including indexing strategies.
 - **Scalability**: Explore horizontal scaling options for handling increased loads.
 - **Spring Batch Processing**: To further implement the data processing by using Springs Batch Processors.
+- **At present, when the User tries to access the Events Finder API, he/she should type the page and size in the API Query Parameters. This makes the User Weird. Needs to further Imporve the API Events Finder.**
 
 ## Contribution
 Contributions are welcome! Please fork the repository and submit a pull request for review.
@@ -81,4 +82,21 @@ mvn spring-boot:run
 5. **Access the Application**
 ```sh
 Access the Application on `http://localhost:8090/api/v1/**/**`
+```
+
+## API Endpoints
+### Upload Events CSV File/Dataset
+- **Endpoint**: `POST /api/v1/import/csv`
+- **Description**: Uploads a CSV file containing event data and processes it.
+- **Request**:
+```sh
+curl -F "file=@path/to/your/file.csv" http://localhost:8090/api/v1/import/csv
+```
+
+### Find Events
+- **Endpoint**: `GET /api/v1/events/find`
+- **Description**: Finds events based on user's latitude, longitude, a specified date, page and size.
+- **Request**:
+```sh
+curl "http://localhost:8090/api/v1/events/find?latitude=40.7128&longitude=-74.0060&date=2024-03-15&page=1&size=10"
 ```
