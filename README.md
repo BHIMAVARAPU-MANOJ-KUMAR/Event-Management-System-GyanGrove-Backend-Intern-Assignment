@@ -17,6 +17,7 @@ This project is a RESTful service that manages and queries event data based on a
 - **Spring Boot**: Chosen for it's comprehensive support for building **Production-ready** Applications and Ease of Integration with other Spring Components.
 - **Spring Data JPA**: Facilitates the data access layer and abstracts much of the boilerplate code.
 - **Maven**: Maven is a Project Management tool, required for building and running the project.
+- **PostgreSQL**: Chosen for its robustness, performance, and support for advanced data types.
 
 ### Design Decisions
 - **RESTful API Design**: Ensures Scalable and Stateless Communication between the Client (**Postman**) and Server (**Backend Application**).
@@ -43,6 +44,7 @@ Contributions are welcome! Please fork the repository and submit a pull request 
 ### Prerequisites
 - **Java 17**: Ensure **Java 17** is installed on your system.
 - **Maven**: Maven is a Project Management tool, required for building and running the project.
+- **PostgreSQL**: Ensure PostgreSQL is installed and running.
 
 ### Running the Project
 
@@ -52,17 +54,31 @@ git clone https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-Gya
 cd Event-Management-System-GyanGrove-Backend-Intern-Assignment
 ```
 
-2. **Build the Project**
+2. **Configure PostgreSQL**
+
+- **Create a database named `event_management_db_name`.** Any **database_name** of your choice.
+- **Update the `application.properties` file with your `PostgreSQL credentials`.**
+
+```sh
+spring.datasource.url=jdbc:postgresql://localhost:5432/event_management_db_name
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.jpa.hibernate.ddl-auto=update
+```
+
+- **For more go to application.properties file in the project**
+
+3. **Build the Project**
 ```sh
 mvn clean install
 ```
 
-3. **Run the Application**
+4. **Run the Application**
 ```sh
 mvn spring-boot:run
 ```
 
-4. **Access the Application**
+5. **Access the Application**
 ```sh
 Access the Application on `http://localhost:8090/api/v1/**/**`
 ```
