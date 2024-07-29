@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.event.eventsmanagement.dtos.EventResponseDTO;
 import com.event.eventsmanagement.dtos.EventsDTO;
 import com.event.eventsmanagement.entity.Events;
 import com.event.eventsmanagement.eventsresponse.CustomEventsResponseExternalAPI;
@@ -34,6 +35,18 @@ public final class EventsService {
 	public final Events saveEvent(Events events) {
 		logger.info("Created a New Resource in the Database & INSERT Operation Success.");
 		return eventsRepository.save(events);
+	}
+	
+	public final EventResponseDTO saveEventAndGetResponse(Events events) {
+		Events savedEvents = eventsRepository.save(events);
+		logger.info("Created a New Resource in the Database & INSERT Operation Success.");
+		return new EventResponseDTO(
+				savedEvents.getEventName(),
+				savedEvents.getCityName(),
+				savedEvents.getDate(),
+				savedEvents.getTime(),
+				savedEvents.getLatitude(),
+				savedEvents.getLongitude());
 	}
 
 	public final CustomResponseWrapper findEvents(double userLatitude, double userLongitude, LocalDate date, int page,

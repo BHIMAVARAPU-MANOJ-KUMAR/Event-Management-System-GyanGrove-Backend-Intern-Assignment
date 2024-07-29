@@ -2,7 +2,6 @@ package com.event.eventsmanagement.datauploaddownloadcontroller;
 
 import java.io.IOException;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -25,18 +24,15 @@ public class DataCsvFileDownloader {
 		this.eventsFileService = eventsFileService;
 	}
 	
-	@GetMapping(value = {"/csv"})
-	public ResponseEntity<Resource> downloadFile() throws IOException {
+	@GetMapping(value = {"/csv"}, headers = {"export-csv-api-version=1"})
+	public ResponseEntity<?> downloadFile() throws IOException,
+	Exception {
 		InputStreamResource file = new InputStreamResource(eventsFileService.load());
 		return ResponseEntity.ok()
 		        .header(HttpHeaders.CONTENT_DISPOSITION, 
 		        		"attachment; filename=" + AppUtils.filename)
 		        .contentType(MediaType.parseMediaType("application/csv"))
+		        .contentType(MediaType.APPLICATION_OCTET_STREAM)
 		        .body(file);
-//		HttpHeaders headers = new HttpHeaders();
-//      headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-//      headers.setContentDispositionFormData("attachment", fileName);
-//      headers.setContentLength(contents.length);
-//      return new ResponseEntity<>(contents, headers, HttpStatus.OK);
 	}
 }

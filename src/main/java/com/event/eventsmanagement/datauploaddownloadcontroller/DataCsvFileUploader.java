@@ -16,7 +16,7 @@ import com.event.eventsmanagement.service.EventsFileService;
 
 @CrossOrigin(value = {"http://localhost:8090"})
 @RestController
-@RequestMapping(value = {"/api/v1/import"})
+@RequestMapping(value = {"api/v1/import"})
 public class DataCsvFileUploader {
 	
 	private final EventsFileService eventsFileService;
@@ -25,10 +25,10 @@ public class DataCsvFileUploader {
 		this.eventsFileService = eventsFileService;
 	}
 	
-	@PostMapping(value = {"/csv"})
+	@PostMapping(value = {"/csv"}, headers = {"import-csv-api-version=1"})
 	public ResponseEntity<String> uploadCsvFile(@RequestParam("file") 
 	MultipartFile file) 
-			throws IOException {
+			throws IOException, Exception {
 		String message = "";
 		if (CSVHelper.hasCSVFormat(file)) {
 		try {
