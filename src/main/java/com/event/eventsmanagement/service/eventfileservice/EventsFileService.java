@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.event.eventsmanagement.csvhelper.CSVHelper;
+import com.event.eventsmanagement.applicationutils.CSVHelper;
 import com.event.eventsmanagement.entity.Events;
 import com.event.eventsmanagement.eventsrepository.EventsRepository;
 
