@@ -93,6 +93,8 @@ com.event.eventsmanagement
 ### Conclusion
 The package-by-layer approach was chosen for the Events Management System project to ensure a well-organized, maintainable, and scalable codebase. This architecture supports clear separation of concerns, facilitates testing and reusability, and provides a structured way to manage the application’s growth. By adhering to this architecture, the project becomes more robust, easier to manage, and adaptable to future changes and enhancements.
 
+![Image of Package by Feature & Package by Layer](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/FeatureLayer.webp?raw=true)
+
 ### Error Handling
 - **Graceful Degradation**: The system handles external API failures gracefully by providing fallback responses.
 
