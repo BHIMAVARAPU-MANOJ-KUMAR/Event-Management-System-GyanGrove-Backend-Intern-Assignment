@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.exceptions;
+package com.event.eventsmanagement.exceptionhandlers;
 
 import java.util.HashMap;
 import java.util.Map;

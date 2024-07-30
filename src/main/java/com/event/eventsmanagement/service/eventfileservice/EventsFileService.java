@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.service;
+package com.event.eventsmanagement.service.eventfileservice;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.event.eventsmanagement.csvhelper.CSVHelper;
 import com.event.eventsmanagement.entity.Events;
-import com.event.eventsmanagement.repository.EventsRepository;
+import com.event.eventsmanagement.eventsrepository.EventsRepository;
 
 @Service(value = "EventsFileService")
 public final class EventsFileService {

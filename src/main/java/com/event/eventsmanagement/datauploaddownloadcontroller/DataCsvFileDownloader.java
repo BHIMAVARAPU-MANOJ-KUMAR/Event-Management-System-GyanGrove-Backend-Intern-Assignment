@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.event.eventsmanagement.applicationutils.AppUtils;
-import com.event.eventsmanagement.service.EventsFileService;
+import com.event.eventsmanagement.service.eventfileservice.EventsFileService;
 
 @CrossOrigin(value = {"http://localhost:8090"})
 @RestController
@@ -31,8 +31,7 @@ public class DataCsvFileDownloader {
 		return ResponseEntity.ok()
 		        .header(HttpHeaders.CONTENT_DISPOSITION, 
 		        		"attachment; filename=" + AppUtils.filename)
-		        .contentType(MediaType.parseMediaType("application/csv"))
-		        .contentType(MediaType.APPLICATION_OCTET_STREAM)
+		        .contentType(MediaType.parseMediaType("text/csv"))
 		        .body(file);
 	}
 }

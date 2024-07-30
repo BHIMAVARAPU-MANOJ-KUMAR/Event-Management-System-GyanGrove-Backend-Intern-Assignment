@@ -2,7 +2,7 @@ package com.event.eventsmanagement.eventsresponse;
 
 import java.util.List;
 
-public record CustomResponseWrapper(List<CustomEventsResponseExternalAPI> 
+public record EventsFinderResponse(List<EventsResponseWithExternalAPIs> 
 events,
 		Integer page,
 		Integer pageSize,

@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.repository;
+package com.event.eventsmanagement.eventsrepository;
 
 import java.time.LocalDate;
 

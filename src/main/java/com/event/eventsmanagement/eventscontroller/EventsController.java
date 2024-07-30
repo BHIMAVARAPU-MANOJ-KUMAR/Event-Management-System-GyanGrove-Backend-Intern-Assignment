@@ -15,10 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.event.eventsmanagement.dtos.EventResponseDTO;
+import com.event.eventsmanagement.dtos.EventsRequest;
+import com.event.eventsmanagement.dtos.EventsResponse;
 import com.event.eventsmanagement.entity.Events;
-import com.event.eventsmanagement.eventsresponse.CustomResponseWrapper;
-import com.event.eventsmanagement.service.EventsService;
+import com.event.eventsmanagement.eventsresponse.EventsFinderResponse;
+import com.event.eventsmanagement.service.eventservice.EventsService;
 
 import jakarta.validation.Valid;
 
@@ -44,19 +45,19 @@ public class EventsController {
 	}
 	
 	@PostMapping(value = {"/events"}, headers = {"events-api-version=2"}, produces = {"application/v2+json"})
-	public ResponseEntity<EventResponseDTO> createEvent(@RequestBody @Valid Events events) throws Exception {
-		EventResponseDTO dto = eventsService.saveEventAndGetResponse(events);
-		ResponseEntity<EventResponseDTO> responseEntity = new ResponseEntity<>(dto, HttpStatus.CREATED);
+	public ResponseEntity<EventsResponse> createEvent(@RequestBody @Valid EventsRequest events) throws Exception {
+		EventsResponse dto = eventsService.saveEventAndGetResponse(events);
+		ResponseEntity<EventsResponse> responseEntity = new ResponseEntity<>(dto, HttpStatus.CREATED);
 		return responseEntity;
 	}
 	
-	@GetMapping(value = {"/find"}, headers = {"events-finder-api-version=1"},produces = {"application/json"})
-	public ResponseEntity<CustomResponseWrapper> findEvents(@RequestParam double latitude,
+	@GetMapping(value = {"/find"}, headers = {"events-finder-api-version=1"}, produces = {"application/json"})
+	public ResponseEntity<EventsFinderResponse> findEvents(@RequestParam double latitude,
 			@RequestParam double longitude,
 			@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
 			@RequestParam int page,
 			@RequestParam int size) throws Exception {
-		CustomResponseWrapper events = eventsService.findEvents(latitude, longitude, date, page,
+		EventsFinderResponse events = eventsService.findEvents(latitude, longitude, date, page,
 				size);
 		return ResponseEntity.ok(events);
 	}

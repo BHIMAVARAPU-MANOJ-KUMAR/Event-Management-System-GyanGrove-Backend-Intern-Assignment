@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 
-import com.event.eventsmanagement.filter.CustomHeaderFilter;
+import com.event.eventsmanagement.filters.CustomHeadersFilter;
 
 @SpringBootApplication
 public class EventsmanagementApplication {
@@ -12,9 +12,9 @@ public class EventsmanagementApplication {
 		SpringApplication.run(EventsmanagementApplication.class, args);
 	}
 	
-	FilterRegistrationBean<CustomHeaderFilter> customHeaderFilter() {
-        FilterRegistrationBean<CustomHeaderFilter> registrationBean = new FilterRegistrationBean<>();
-        registrationBean.setFilter(new CustomHeaderFilter());
+	FilterRegistrationBean<CustomHeadersFilter> customHeaderFilter() {
+        FilterRegistrationBean<CustomHeadersFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new CustomHeadersFilter());
         registrationBean.addUrlPatterns("/api/v1/*");
         return registrationBean;
     }

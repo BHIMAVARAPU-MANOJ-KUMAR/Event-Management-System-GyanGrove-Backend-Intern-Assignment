@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.filter;
+package com.event.eventsmanagement.filters;
 
 import java.util.Collections;
 import java.util.Enumeration;
@@ -8,11 +8,11 @@ import java.util.Map;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
 
-public class CustomHttpServletRequestWrapper extends HttpServletRequestWrapper {
+public class CustomHttpServletRequest extends HttpServletRequestWrapper {
 	
 	private final Map<String, String> customHeaders;
 	
-	public CustomHttpServletRequestWrapper(HttpServletRequest request, String headerName, String headerValue) {
+	public CustomHttpServletRequest(HttpServletRequest request, String headerName, String headerValue) {
         super(request);
         this.customHeaders = new HashMap<>();
         this.customHeaders.put(headerName, headerValue);

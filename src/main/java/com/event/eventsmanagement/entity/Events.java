@@ -4,7 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.lang.NonNull;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,14 +14,14 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
 @Entity(name = "Events")
@@ -43,16 +42,18 @@ public final class Events {
 			nullable = false,
 			updatable = false,
 			columnDefinition = "VARCHAR(100)")
-	@NotNull
-	@NonNull
+	@NotNull(message = "Event Name must not be Null")
+	@NotEmpty(message = "Event Name must not be Empty")
+	@NotBlank(message = "Event Name must not be Blank")
 	private String eventName;
 	
 	@Column(name = "city_name",
 			nullable = false,
 			updatable = false,
 			columnDefinition = "VARCHAR(40)")
-	@NotNull
-	@NonNull
+	@NotNull(message = "Event City Name must not be Null")
+	@NotEmpty(message = "Event City Name must not be Empty")
+	@NotBlank(message = "Event City Name must not be Blank")
 	private String cityName;
 	
 	@Temporal(TemporalType.DATE)
@@ -61,8 +62,7 @@ public final class Events {
 			nullable = false,
 			updatable = false,
 			columnDefinition = "DATE")
-	@NotNull
-	@NonNull
+	@NotNull(message = "Event Date must not be Null")
 	private LocalDate date;
 	
 	@Temporal(TemporalType.TIME)
@@ -70,24 +70,21 @@ public final class Events {
 			nullable = false,
 			updatable = false,
 			columnDefinition = "TIME")
-	@NotNull
-	@NonNull
+	@NotNull(message = "Event Time must not be Null")
 	private LocalTime time;
 	
 	@Column(name = "latitude",
 			nullable = false,
 			updatable = false,
 			columnDefinition = "DOUBLE PRECISION")
-	@NotNull
-	@NonNull
+	@NotNull(message = "Latitude Coordinate must not be Null")
 	private Double latitude;
 	
 	@Column(name = "longitude",
 			nullable = false,
 			updatable = false,
 			columnDefinition = "DOUBLE PRECISION")
-	@NotNull
-	@NonNull
+	@NotNull(message = "Longitude Coordinate must not be Null")
 	private Double longitude;
 	
 	

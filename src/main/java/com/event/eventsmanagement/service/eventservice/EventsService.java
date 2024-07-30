@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.service;
+package com.event.eventsmanagement.service.eventservice;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,14 +12,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.event.eventsmanagement.dtos.EventResponseDTO;
-import com.event.eventsmanagement.dtos.EventsDTO;
+import com.event.eventsmanagement.dtos.EventsResponse;
+import com.event.eventsmanagement.dtos.EventsRequest;
 import com.event.eventsmanagement.entity.Events;
-import com.event.eventsmanagement.eventsresponse.CustomEventsResponseExternalAPI;
-import com.event.eventsmanagement.eventsresponse.CustomResponseWrapper;
+import com.event.eventsmanagement.eventsrepository.EventsRepository;
+import com.event.eventsmanagement.eventsresponse.EventsResponseWithExternalAPIs;
+import com.event.eventsmanagement.eventsresponse.EventsFinderResponse;
 import com.event.eventsmanagement.externalapis.DistanceCalculationAPI;
 import com.event.eventsmanagement.externalapis.WeatherAPI;
-import com.event.eventsmanagement.repository.EventsRepository;
 
 @Service(value = "EventsService")
 public final class EventsService {
@@ -37,10 +37,17 @@ public final class EventsService {
 		return eventsRepository.save(events);
 	}
 	
-	public final EventResponseDTO saveEventAndGetResponse(Events events) {
-		Events savedEvents = eventsRepository.save(events);
+	public final EventsResponse saveEventAndGetResponse(EventsRequest eventsRequest) {
+		Events events2 = new Events(
+				eventsRequest.getEventName(),
+				eventsRequest.getCityName(),
+				eventsRequest.getDate(),
+				eventsRequest.getTime(),
+				eventsRequest.getLatitude(),
+				eventsRequest.getLongitude());
+		Events savedEvents = eventsRepository.save(events2);
 		logger.info("Created a New Resource in the Database & INSERT Operation Success.");
-		return new EventResponseDTO(
+		return new EventsResponse(
 				savedEvents.getEventName(),
 				savedEvents.getCityName(),
 				savedEvents.getDate(),
@@ -49,7 +56,7 @@ public final class EventsService {
 				savedEvents.getLongitude());
 	}
 
-	public final CustomResponseWrapper findEvents(double userLatitude, double userLongitude, LocalDate date, int page,
+	public final EventsFinderResponse findEvents(double userLatitude, double userLongitude, LocalDate date, int page,
 			int size) {
 		Page<Events> eventsPage = eventsRepository.findByEventsWithinDateRange(date, date.plusDays(14),
 				PageRequest.of(page - 1, size, Sort.by("date").ascending()));
@@ -138,21 +145,21 @@ public final class EventsService {
 		 * Choose the one that best fits your specific use case and performance
 		 * requirements.
 		 */
-		List<CustomEventsResponseExternalAPI> externalAPIs = eventsPage.getContent().stream().map(event -> {
-			EventsDTO eventsDTO = new EventsDTO();
-			eventsDTO.setEvent_name(event.getEventName());
-			eventsDTO.setCity_name(event.getCityName());
-			eventsDTO.setDate(event.getDate());
-
+		List<EventsResponseWithExternalAPIs> externalAPIs = eventsPage.getContent().stream().map(event -> {
 			CompletableFuture<String> weatherFuture = CompletableFuture
 					.supplyAsync(() -> WeatherAPI.fetchWeather(event.getCityName(), event.getDate()));
 			CompletableFuture<Double> distanceCalFuture = CompletableFuture.supplyAsync(() -> DistanceCalculationAPI
 					.calculateDistance(userLatitude, userLongitude, event.getLatitude(), event.getLongitude()));
 			CompletableFuture.allOf(weatherFuture, distanceCalFuture).join();
-			return new CustomEventsResponseExternalAPI(eventsDTO, weatherFuture.join(), distanceCalFuture.join());
+			
+			return new EventsResponseWithExternalAPIs(event.getEventName(),
+					event.getCityName(),
+					event.getDate(),
+					weatherFuture.join(), 
+					distanceCalFuture.join());
 		}).collect(Collectors.toList());
 		logger.info("Returning Available Events between Dates. Success.");
-		return new CustomResponseWrapper(externalAPIs, page, size, eventsPage.getTotalElements(),
+		return new EventsFinderResponse(externalAPIs, page, size, eventsPage.getTotalElements(),
 				eventsPage.getTotalPages());
 	}
 }
