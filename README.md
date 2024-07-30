@@ -105,6 +105,8 @@ The package-by-layer approach was chosen for the Events Management System projec
 - **Scalability**: Explore horizontal scaling options for handling increased loads.
 - **Spring Batch Processing**: To further implement the data processing by using Springs Batch Processors.
 - **At present, when the User tries to access the Events Finder API, he/she should type the page and size in the API Query Parameters. This makes the User Weird. Needs to further Imporve the API Events Finder.**
+- **Spring Boot Starter Actuator**: To Implement **Spring Boot Actuator**, it adds several **production grade** service to the Application. It mainly exposes operational information about the running application -- health, metrics, info, dump, env, etc.
+- **Spring Boot Starter Security**: To Implement **Spring Security** Authentication and Authorization, Role based access management, etc to the Application, hence only the events finder API is accessible to the public & CSV import, export & create new events API's are accessible to the System Administrator.
 
 ## Contribution
 Contributions are welcome! Please fork the repository and submit a pull request for review.
@@ -144,29 +146,132 @@ spring.jpa.hibernate.ddl-auto=update
 mvn clean install
 ```
 
-4. **Run the Application**
+4. **Package the Application**
+```sh
+mvn clean package -DskipTests
+```
+- **-DskipTests flag is used to skip tests**.
+
+5. **Run the Application**
 ```sh
 mvn spring-boot:run
 ```
 
-5. **Access the Application**
+6. **Access the Application**
 ```sh
 Access the Application on `http://localhost:8090/api/v1/**/**`
 ```
 
-## API Endpoints
-### Upload Events CSV File/Dataset
-- **Endpoint**: `POST /api/v1/import/csv`
-- **Description**: Uploads a CSV file containing event data and processes it.
-- **Request**:
+7. **To Docker Compose & Containerize the Application**
 ```sh
-curl -F "file=@path/to/your/file.csv" http://localhost:8090/api/v1/import/csv
+docker-compose up --build
 ```
 
-### Find Events
+8. **Running the Application**
+- **Accessing the Application**:
+  The Application will be available at `http://localhost:8090`.
+- **SwaggerUI**:
+  API Documentation is available at `http://localhost:8090/swagger-ui/index.html`. From this SwaggerUI you can directly send requests to the Application without the postman.
+
+## API Endpoints
+### Upload Events CSV File/Dataset (Admin API)
+- **Endpoint**: `POST /api/v1/import/csv`
+- **Description**: Uploads a CSV file containing event data and processes it.
+- **Example `curl` Request for Importing CSV Data**:
+```sh
+curl -X POST "http://localhost:8090/api/v1/import/csv" \
+     -H "Content-Type: multipart/form-data" \
+     -H "import-csv-api-version: 1" \
+     -F "file=@/path/to/your/file.csv"
+```
+- **Explanation**:
+`-X POST`: Specifies the request method as POST.
+`"http://localhost:8090/api/v1/import/csv"`: The URL of your endpoint. Replace `http://localhost:8090` with your actual server URL if different.
+`-H "Content-Type: multipart/form-data"`: Sets the content type to multipart/form-data for file upload.
+`-H "import-csv-api-version: 1"`: Adds the required header `import-csv-api-version` with the value `1`.
+`-F "file=@/path/to/your/file.csv"`: Specifies the file to upload. Replace `/path/to/your/file.csv` with the actual path to your CSV file.
+`consumes = MediaType.MULTIPART_FORM_DATA_VALUE`
+
+### Download Events Data from Database to CSV File (Admin API)
+- **Endpoint**: `GET /api/v1/export/csv`
+- **Description**: Downloads a CSV File containing data from database.
+- **Example `curl` Request for Exporting CSV Data**:
+```sh
+curl -X GET "http://localhost:8090/api/v1/export/csv" \
+     -H "export-csv-api-version: 1" \
+     -o data_export_d MMM uuuu 'T' HH:mm:ss.SSS.csv
+````
+- **Explanation**:
+`-X GET`: Specifies the request method as GET.
+`"http://localhost:8090/api/v1/export/csv"`: The URL of your endpoint. Replace `http://localhost:8090` with your actual server URL if different.
+`-H "export-csv-api-version: 1"`: Adds the required header `export-csv-api-version` with the value `1`.
+`-o data_export_d MMM uuuu 'T' HH:mm:ss.SSS.csv`: Specifies the output file name where the exported CSV data will be saved.
+
+### Find Events (public API)
 - **Endpoint**: `GET /api/v1/events/find`
 - **Description**: Finds events based on user's latitude, longitude, a specified date, page and size.
-- **Request**:
+- **Example `curl` Request for Finding Events**:
 ```sh
-curl "http://localhost:8090/api/v1/events/find?latitude=40.7128&longitude=-74.0060&date=2024-03-15&page=1&size=10"
+curl -X GET "http://localhost:8090/api/v1/events/find" \
+     -H "Content-Type: application/json" \
+     -H "events-finder-api-version: 1" \
+     -d '{
+           "latitude": 37.7749,
+           "longitude": -122.4194,
+           "date": "2024-07-26",
+           "page": 1,
+           "size" 10
+         }'
 ```
+- **Explanation**:
+`-X GET`: Specifies the request method as GET.
+`"http://localhost:8090/api/v1/events/find"`: The URL of your endpoint. Replace `http://localhost:8090` with your actual server URL if different.
+`-H "Content-Type: application/json"`: Sets the content type to application/json.
+`-H "events-finder-api-version: 1"`: Adds the required header `events-finder-api-version` with the value `1`.
+`-d '{ "latitude": 37.7749, "longitude": -122.4194, "date": "2024-07-26", "page":1, "size":10 }'`: Sends the data payload containing latitude, longitude, and date in JSON format.
+
+### Create Events Version-1 & Version-2 (Admin API)
+- **Endpoint**: `POST /api/v1/events/event` , `POST /api/v1/events/events`
+- **Description**: Create a new Events, insert & save into the Database.
+- **Example `curl` Request for Creating an Event API Version-1**:
+```sh
+curl -X POST "http://localhost:8090/api/v1/events/event" \
+     -H "Content-Type: application/json" \
+     -H "events-api-version: 1" \
+     -H "Accept: application/v1+json" \
+     -d '{
+           "eventName": "Music Festival",
+           "cityName": "San Francisco",
+           "date": "2024-07-30",
+           "time": "18:00:00",
+           "latitude": 37.7749,
+           "longitude": -122.4194
+         }'
+```
+
+- **The main difference between the Version-1 & Version-2 API's are V1 sends back the response data with the Resource created `id` while inserting into the database and this is not a best practise.**
+
+- **Example `curl` Request for Creating an Event API Version-2**
+```sh
+curl -X POST "http://localhost:8090/api/v1/events/events" \
+     -H "Content-Type: application/json" \
+     -H "events-api-version: 2" \
+     -H "Accept: application/v2+json" \
+     -d '{
+           "eventName": "Music Festival",
+           "cityName": "San Francisco",
+           "date": "2024-07-30",
+           "time": "18:00",
+           "latitude": 37.7749,
+           "longitude": -122.4194
+         }'
+```
+- **Explanation**:
+`-X POST`: Specifies the request method as POST.
+`"http://localhost:8090/api/v1/events"`: The URL of your endpoint. Replace `http://localhost:8090` with your actual server URL if different.
+`-H "Content-Type: application/json"`: Sets the content type to application/json.
+`-H "events-api-version: 1"`: Adds the required header `events-api-version` with the value `1` for version 1 of the API.
+`-H "events-api-version: 2"`: Adds the required header `events-api-version` with the value `2` for version 2 of the API.
+`-H "Accept: application/v2+json"`: Specifies that the client accepts version 2 of the API response in JSON format.
+`-H "Accept: application/v1+json"`: Specifies that the client accepts version 1 of the API response in JSON format.
+`-d '{ "eventName": "Music Festival", "cityName": "San Francisco", "date": "2024-07-30", "time": "18:00", "latitude": 37.7749, "longitude": -122.4194 }'`: Sends the event data in JSON format.
