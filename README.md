@@ -70,7 +70,7 @@ com.event.eventsmanagement
 |   |-- CsvHelper.java
 |   |-- AppUtils.java
 |
-|-- exceptionshandlers
+|-- exceptionhandlers
 |   |-- GlobalExceptionHandler.java
 |
 |-- externalapis
@@ -81,14 +81,10 @@ com.event.eventsmanagement
 |   |-- EventsFinderResponse.java
 |   |-- EventsResponseWithExternalAPIs.java
 |
-|-- filters
-|   |-- CustomHeadersFilter.java
-|   |-- CustomHttpServletRequest.java
-|
 |-- mainapplication
 |   |-- EventsmanagementApplication.java
 |
-|--------------------------------------------------------
+End
 ```
 ### Conclusion
 The package-by-layer approach was chosen for the Events Management System project to ensure a well-organized, maintainable, and scalable codebase. This architecture supports clear separation of concerns, facilitates testing and reusability, and provides a structured way to manage the application’s growth. By adhering to this architecture, the project becomes more robust, easier to manage, and adaptable to future changes and enhancements.
