@@ -197,7 +197,7 @@ curl -X POST "http://localhost:8090/api/v1/import/csv" \
 ```sh
 curl -X GET "http://localhost:8090/api/v1/export/csv" \
      -H "export-csv-api-version: 1" \
-     -o data_export_d MMM uuuu 'T' HH:mm:ss.SSS.csv
+     -o "data_export_d MMM uuuu 'T' HH:mm:ss.SSS.csv"
 ````
 - **Explanation**:
 `-X GET`: Specifies the request method as GET.
@@ -234,7 +234,7 @@ curl -X GET "http://localhost:8090/api/v1/events/find?latitude=40.7128&longitude
 ```sh
 curl -X POST "http://localhost:8090/api/v1/events/event" \
      -H "Content-Type: application/json" \
-     -H "events-api-version: 1" \
+     -H "event-api-version: 1" \
      -H "Accept: application/v1+json" \
      -d '{
            "eventName": "Music Festival",
@@ -267,7 +267,7 @@ curl -X POST "http://localhost:8090/api/v1/events/events" \
 `-X POST`: Specifies the request method as POST.
 `"http://localhost:8090/api/v1/events"`: The URL of your endpoint. Replace `http://localhost:8090` with your actual server URL if different.
 `-H "Content-Type: application/json"`: Sets the content type to application/json.
-`-H "events-api-version: 1"`: Adds the required header `events-api-version` with the value `1` for version 1 of the API.
+`-H "event-api-version: 1"`: Adds the required header `event-api-version` with the value `1` for version 1 of the API.
 `-H "events-api-version: 2"`: Adds the required header `events-api-version` with the value `2` for version 2 of the API.
 `-H "Accept: application/v2+json"`: Specifies that the client accepts version 2 of the API response in JSON format.
 `-H "Accept: application/v1+json"`: Specifies that the client accepts version 1 of the API response in JSON format.
