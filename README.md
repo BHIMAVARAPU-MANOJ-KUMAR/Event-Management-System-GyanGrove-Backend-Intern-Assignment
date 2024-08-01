@@ -283,3 +283,8 @@ curl -X POST "http://localhost:8090/api/v1/events/events" \
 
 ## Contribution
 Contributions are welcome! Please fork the repository and submit a pull request for review. Connect me on [LinkedIn](https://in.linkedin.com/in/bhimavarapu-manoj-kumar-reddy)
+
+## For Assignment Project Requirements
+- **[Backend Intern Assignment @ GyanGrove](https://docs.google.com/document/d/1roMRKnjb2z8ap7K4F0Ls3GVP-_WoXhR85ePqOLXdk9Y/mobilebasic)**
+- **[Backend_assignment_gg_dataset - dataset.csv](https://drive.google.com/file/d/1sZXyOT_V1NcZj3dDQIKY9Ea_W7XdGum_/view)**
+- **[Frontend Dev Internship Assignment @ GyanGrove](https://docs.google.com/document/d/1G7KEJTCsgZzvzqVqmg23Zw7wDYm3Ioai597U6749ntU/mobilebasic)**
