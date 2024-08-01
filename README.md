@@ -111,7 +111,7 @@ The package-by-layer approach was chosen for the Events Management System projec
 - **Spring Boot Starter Security**: To Implement **Spring Security** Authentication and Authorization, Role based access management, etc to the Application, hence only the events finder API is accessible to the public & CSV import, export & create new events API's are accessible to the System Administrator.
 
 ## Contribution
-Contributions are welcome! Please fork the repository and submit a pull request for review.
+Contributions are welcome! Please fork the repository and submit a pull request for review. Connect me on [LinkedIn](https://in.linkedin.com/in/bhimavarapu-manoj-kumar-reddy)
 
 ## Setup and Running the Project
 
@@ -209,28 +209,27 @@ curl -X GET "http://localhost:8090/api/v1/export/csv" \
 `-H "export-csv-api-version: 1"`: Adds the required header `export-csv-api-version` with the value `1`.
 `-o data_export_d MMM uuuu 'T' HH:mm:ss.SSS.csv`: Specifies the output file name where the exported CSV data will be saved.
 
-### Find Events (public API)
+### Find Events (Event Finder API) (public API)
 - **Endpoint**: `GET /api/v1/events/find`
 - **Description**: Finds events based on user's latitude, longitude, a specified date, page and size.
 - **Example `curl` Request for Finding Events**:
 ```sh
-curl -X GET "http://localhost:8090/api/v1/events/find" \
+curl -X GET "http://localhost:8090/api/v1/events/find?latitude=40.7128&longitude=-70.0060&date=2024-03-15&page=1&size=10" \
      -H "Content-Type: application/json" \
-     -H "events-finder-api-version: 1" \
-     -d '{
-           "latitude": 37.7749,
-           "longitude": -122.4194,
-           "date": "2024-07-26",
-           "page": 1,
-           "size" 10
-         }'
+     -H "Accept: application/json" \
+     -H "events-finder-api-version: 1"
 ```
 - **Explanation**:
 `-X GET`: Specifies the request method as GET.
-`"http://localhost:8090/api/v1/events/find"`: The URL of your endpoint. Replace `http://localhost:8090` with your actual server URL if different.
+`"http://localhost:8090/api/v1/events/find?latitude=40.7128&longitude=-70.0060&date=2024-03-15&page=1&size=10"`: The URL of your endpoint. Replace `http://localhost:8090` with your actual server URL if different.
 `-H "Content-Type: application/json"`: Sets the content type to application/json.
 `-H "events-finder-api-version: 1"`: Adds the required header `events-finder-api-version` with the value `1`.
-`-d '{ "latitude": 37.7749, "longitude": -122.4194, "date": "2024-07-26", "page":1, "size":10 }'`: Sends the data payload containing latitude, longitude, and date in JSON format.
+- **Event Finder API curl Request**:
+![Screen Shot of curl request - Event Finder API](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/curl_request.png)
+
+- **Event Finder API Response**:
+
+![Screen Shot of Event Finder API - Response](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/event_finder_api_response.png)
 
 ### Create Events Version-1 & Version-2 (Admin API)
 - **Endpoint**: `POST /api/v1/events/event` , `POST /api/v1/events/events`
@@ -277,3 +276,14 @@ curl -X POST "http://localhost:8090/api/v1/events/events" \
 `-H "Accept: application/v2+json"`: Specifies that the client accepts version 2 of the API response in JSON format.
 `-H "Accept: application/v1+json"`: Specifies that the client accepts version 1 of the API response in JSON format.
 `-d '{ "eventName": "Music Festival", "cityName": "San Francisco", "date": "2024-07-30", "time": "18:00", "latitude": 37.7749, "longitude": -122.4194 }'`: Sends the event data in JSON format.
+
+## Some Useful Docker and Maven Commands that I used in this Project 
+
+- **Docker Commands**:
+![Screen Shot of useful Docker Commands](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/useful_docker_commands%20(2).png)
+
+- **Maven Commands**:
+![Screen Shot of useful Maven Commands](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/maven_commands.png)
+
+## Contribution
+Contributions are welcome! Please fork the repository and submit a pull request for review. Connect me on [LinkedIn](https://in.linkedin.com/in/bhimavarapu-manoj-kumar-reddy)
