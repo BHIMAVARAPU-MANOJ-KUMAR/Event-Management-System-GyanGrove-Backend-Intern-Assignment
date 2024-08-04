@@ -12,18 +12,17 @@ public class SwaggerConfig {
 	
 	@Bean(name = "PublicAPI")
 	GroupedOpenApi publicApi() {
+		String[] pathsToMatch = {"/api/v1/events/find"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller"}; 
 		return GroupedOpenApi.builder()
 				.group("public-Events Finder API")
-				.pathsToMatch("/api/v1/events/find")
-				.pathsToExclude("/api/v1/events/event",
-						"/api/v1/events/events",
-						"/api/v1/import/csv",
-						"/api/v1/export/csv")
+				.pathsToMatch(pathsToMatch)
+				.packagesToScan(packagedToMatch)
 				.addOpenApiCustomizer(openAPIs -> {
 					openAPIs.info(new Info()
 							.title("Events Finder API")
 							.description("This is the public API for accessing Event Information")
-							.version("v2.6.0")
+							.version("2.6.0")
 							.contact(new Contact()
 									.name("Manoj Kumar Reddy")
 									.email("manojbh1999@gmail.com"))
@@ -36,18 +35,17 @@ public class SwaggerConfig {
 	
 	@Bean(name = "AdminAPI1")
 	GroupedOpenApi adminApi1() {
+		String[] pathsToMatch = {"/api/v1/import/csv", "/api/v1/export/csv"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.datauploaddownloadcontroller"};
 		return GroupedOpenApi.builder()
 				.group("admin-File Resource APIs")
-				.pathsToMatch("/api/v1/import/csv",
-						"/api/v1/export/csv")
-				.pathsToExclude("/api/v1/events/find",
-						"/api/v1/events/event",
-						"/api/v1/events/events")
+				.pathsToMatch(pathsToMatch)
+				.packagesToScan(packagedToMatch)
 				.addOpenApiCustomizer(openAPIs -> {
 					openAPIs.info(new Info()
 							.title("File Resource Import Export APIs")
 							.description("This is the Admin API for Import & Export Data Operations")
-							.version("v2.6.0")
+							.version("2.6.0")
 							.contact(new Contact()
 									.name("Manoj Kumar Reddy")
 									.email("manojbh1999@gmail.com"))
@@ -60,18 +58,17 @@ public class SwaggerConfig {
 	
 	@Bean(name = "AdminAPI2")
 	GroupedOpenApi adminApi2() {
+		String[] pathsToMatch = {"/api/v1/events/event", "/api/v1/events/events"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller"};
 		return GroupedOpenApi.builder()
 				.group("admin-Event Creation APIs")
-				.pathsToMatch("/api/v1/events/event",
-						"/api/v1/events/events")
-				.pathsToExclude("/api/v1/events/find",
-						"/api/v1/import/csv",
-						"/api/v1/export/csv")
+				.pathsToMatch(pathsToMatch)
+				.packagesToScan(packagedToMatch)
 				.addOpenApiCustomizer(openAPIs -> {
 					openAPIs.info(new Info()
 							.title("Event Creation APIs")
 							.description("This is the Admin API for Creation of New Events")
-							.version("v2.6.0")
+							.version("2.6.0")
 							.contact(new Contact()
 									.name("Manoj Kumar Reddy")
 									.email("manojbh1999@gmail.com"))
