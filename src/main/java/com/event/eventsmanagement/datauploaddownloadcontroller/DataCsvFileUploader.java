@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.event.eventsmanagement.applicationutils.CSVHelper;
@@ -25,6 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RequestMapping(value = {"api/v1/import"})
 @Tag(name = "CSV Uploader",
 description = "API for Importing Data from .csv file to Database")
+@RestControllerAdvice
 public class DataCsvFileUploader {
 	
 	private final EventsFileService eventsFileService;
@@ -42,7 +44,7 @@ public class DataCsvFileUploader {
 			consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<String> uploadCsvFile(@RequestParam("file") 
 	MultipartFile file) 
-			throws IOException, Exception {
+			throws IOException {
 		String message = "";
 		if (CSVHelper.hasCSVFormat(file)) {
 		try {
@@ -57,7 +59,7 @@ public class DataCsvFileUploader {
 		}
 	}
 		ResponseEntity<String> responseEntity = new ResponseEntity<>(
-				"Please Upload a CSV File.", HttpStatus.BAD_REQUEST);
+				"Upload a CSV File.", HttpStatus.BAD_REQUEST);
 		return responseEntity;
 	}
 }

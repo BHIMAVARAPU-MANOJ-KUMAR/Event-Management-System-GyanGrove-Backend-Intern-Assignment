@@ -27,9 +27,16 @@ public final class EventsService {
 	private static final Logger logger = LoggerFactory.getLogger(EventsService.class); 
 
 	private final EventsRepository eventsRepository;
-
-	public EventsService(EventsRepository repository) {
+	
+	private final WeatherAPI weatherAPI;
+	
+	private final DistanceCalculationAPI calculationAPI;
+	
+	public EventsService(EventsRepository repository, WeatherAPI weatherAPI,
+			DistanceCalculationAPI calculationAPI) {
 		this.eventsRepository = repository;
+		this.weatherAPI=weatherAPI;
+		this.calculationAPI=calculationAPI;
 	}
 
 	public final Events saveEvent(Events events) {
@@ -147,8 +154,8 @@ public final class EventsService {
 		 */
 		List<EventsResponseWithExternalAPIs> externalAPIs = eventsPage.getContent().stream().map(event -> {
 			CompletableFuture<String> weatherFuture = CompletableFuture
-					.supplyAsync(() -> WeatherAPI.fetchWeather(event.getCityName(), event.getDate()));
-			CompletableFuture<Double> distanceCalFuture = CompletableFuture.supplyAsync(() -> DistanceCalculationAPI
+					.supplyAsync(() -> weatherAPI.fetchWeather(event.getCityName(), event.getDate()));
+			CompletableFuture<Double> distanceCalFuture = CompletableFuture.supplyAsync(() -> calculationAPI
 					.calculateDistance(userLatitude, userLongitude, event.getLatitude(), event.getLongitude()));
 			CompletableFuture.allOf(weatherFuture, distanceCalFuture).join();
 			

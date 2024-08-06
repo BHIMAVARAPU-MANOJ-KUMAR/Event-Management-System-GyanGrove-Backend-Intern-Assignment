@@ -44,7 +44,7 @@ public final class Events {
 			columnDefinition = "VARCHAR(100)")
 	@NotNull(message = "Event Name must not be Null")
 	@NotEmpty(message = "Event Name must not be Empty")
-	@NotBlank(message = "Event Name must not be Blank")
+	@NotBlank(message = "Event Name is mandatory")
 	private String eventName;
 	
 	@Column(name = "city_name",
@@ -53,7 +53,7 @@ public final class Events {
 			columnDefinition = "VARCHAR(40)")
 	@NotNull(message = "Event City Name must not be Null")
 	@NotEmpty(message = "Event City Name must not be Empty")
-	@NotBlank(message = "Event City Name must not be Blank")
+	@NotBlank(message = "Event City Name is mandatory")
 	private String cityName;
 	
 	@Temporal(TemporalType.DATE)
@@ -62,7 +62,7 @@ public final class Events {
 			nullable = false,
 			updatable = false,
 			columnDefinition = "DATE")
-	@NotNull(message = "Event Date must not be Null")
+	@NotNull(message = "Event Date is mandatory")
 	private LocalDate date;
 	
 	@Temporal(TemporalType.TIME)
@@ -70,21 +70,21 @@ public final class Events {
 			nullable = false,
 			updatable = false,
 			columnDefinition = "TIME")
-	@NotNull(message = "Event Time must not be Null")
+	@NotNull(message = "Event Time is mandatory")
 	private LocalTime time;
 	
 	@Column(name = "latitude",
 			nullable = false,
 			updatable = false,
 			columnDefinition = "DOUBLE PRECISION")
-	@NotNull(message = "Latitude Coordinate must not be Null")
+	@NotNull(message = "Latitude Coordinates are mandatory")
 	private Double latitude;
 	
 	@Column(name = "longitude",
 			nullable = false,
 			updatable = false,
 			columnDefinition = "DOUBLE PRECISION")
-	@NotNull(message = "Longitude Coordinate must not be Null")
+	@NotNull(message = "Longitude Coordinates are mandatory")
 	private Double longitude;
 	
 	

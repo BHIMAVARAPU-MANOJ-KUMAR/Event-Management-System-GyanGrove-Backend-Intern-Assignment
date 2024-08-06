@@ -2,22 +2,33 @@ package com.event.eventsmanagement.externalapis;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.event.eventsmanagement.externalapis.apiservice.ApiService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Service(value = "DistanceCalculationAPI")
 public final class DistanceCalculationAPI {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DistanceCalculationAPI.class);
 	
-	public static final Double calculateDistance(Double latitude1,
+	private final ApiService service;
+	
+	public DistanceCalculationAPI(ApiService apiService) {
+		this.service=apiService;
+	}
+	
+	public final Double calculateDistance(Double latitude1,
 			Double longitude1,
 			Double latitude2,
 			Double longitude2) {
+		final String apiString = service.getDistanceApiKey();
 		final String distanceCalculationAPI = "https://gg-backend-assignment.azurewebsites.net/api/Distance"
 				+ "?"
-				+ "code=IAKvV2EvJa6Z6dEIUqqd7yGAu7IZ8gaH-a0QO6btjRc1AzFu8Y3IcQ=="
+				+ "code="
+				+ apiString
 				+ "&"
 				+ "latitude1="
 				+ latitude1

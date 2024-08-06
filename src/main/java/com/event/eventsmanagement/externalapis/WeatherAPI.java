@@ -4,21 +4,32 @@ import java.time.LocalDate;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import com.event.eventsmanagement.externalapis.apiservice.ApiService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+@Service(value = "WeatherAPI")
 public final class WeatherAPI {
 	
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(WeatherAPI.class);
 	
-	public static final String fetchWeather(String cityName, LocalDate date) {
+	private final ApiService apiService;
+	
+	public WeatherAPI(ApiService service) {
+		this.apiService = service;
+	}
+	
+	public final String fetchWeather(String cityName, LocalDate date) { 
+		final String apiString = apiService.getWeatherApiKey();
 		final String weatherAPI = "https://gg-backend-assignment.azurewebsites.net/api/Weather"
 				+ "?"
-				+ "code=KfQnTWHJbg1giyB_Q9Ih3Xu3L9QOBDTuU5zwqVikZepCAzFut3rqsg=="
+				+ "code="
+				+ apiString
 				+ "&"
 				+ "city="
 				+ cityName

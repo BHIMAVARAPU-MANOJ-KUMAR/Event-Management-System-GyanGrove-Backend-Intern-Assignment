@@ -6,8 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import com.event.eventsmanagement.dtos.EventsRequest;
 import com.event.eventsmanagement.dtos.EventsResponse;
@@ -32,8 +31,7 @@ import jakarta.validation.Valid;
 @CrossOrigin(value = {"http://localhost:8090"})
 @RestController
 @RequestMapping(value = {"api/v1/events"})
-@Validated
-@ControllerAdvice
+@RestControllerAdvice
 public class EventsController {
 	
 	private final EventsService eventsService;
@@ -50,7 +48,7 @@ public class EventsController {
 	@ApiResponse(content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = Events.class))},
 	description = "New Event Created Successfully")
 	@PostMapping(value = {"/event"}, headers = {"event-api-version=1"}, produces = {"application/v1+json"})
-	public ResponseEntity<Events> createNewEvent(@RequestBody @Valid Events events) throws Exception {
+	public ResponseEntity<Events> createNewEvent(@Valid @RequestBody Events events) throws Exception {
 		Events savedEvents = eventsService.saveEvent(events);
 		ResponseEntity<Events> responseEntity = new ResponseEntity<>(
 				savedEvents, HttpStatus.CREATED);
@@ -65,7 +63,7 @@ public class EventsController {
 	@ApiResponse(content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = EventsResponse.class))},
 	description = "New Event Created Successfully")
 	@PostMapping(value = {"/events"}, headers = {"events-api-version=2"}, produces = {"application/v2+json"})
-	public ResponseEntity<EventsResponse> createEvent(@RequestBody @Valid EventsRequest events) throws Exception {
+	public ResponseEntity<EventsResponse> createEvent(@Valid @RequestBody EventsRequest events) throws Exception {
 		EventsResponse dto = eventsService.saveEventAndGetResponse(events);
 		ResponseEntity<EventsResponse> responseEntity = new ResponseEntity<>(dto, HttpStatus.CREATED);
 		return responseEntity;
@@ -77,7 +75,7 @@ public class EventsController {
 	tags = {"Event Finder"},
 	description = "To Find Events based on the user input parameters Latitude, Longitude and Date")
 	@ApiResponse(content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = EventsFinderResponse.class))},
-	description = "Fetched all the Available Events from todays date to 14 days")
+	description = "Fetched all the Available Events from given Date till 14 days")
 	@GetMapping(value = {"/find"}, headers = {"events-finder-api-version=1"}, produces = {"application/json"})
 	public ResponseEntity<EventsFinderResponse> findEvents(@RequestParam double latitude,
 			@RequestParam double longitude,
