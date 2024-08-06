@@ -72,7 +72,7 @@ com.event.eventsmanagement
 |
 |-- exceptionhandlers
 |   |-- EventsGlobalExceptionHandler.java
-|   |-- FileResourceGlobalExceptionHandler
+|   |-- FileResourceGlobalExceptionHandler.java
 |
 |-- externalapis
 |   |-- DistanceCalculationAPI.java
