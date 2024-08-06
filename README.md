@@ -71,11 +71,14 @@ com.event.eventsmanagement
 |   |-- AppUtils.java
 |
 |-- exceptionhandlers
-|   |-- GlobalExceptionHandler.java
+|   |-- EventsGlobalExceptionHandler.java
+|   |-- FileResourceGlobalExceptionHandler
 |
 |-- externalapis
 |   |-- DistanceCalculationAPI.java
 |   |-- WeatherAPI.java
+|   |-- apiservice
+|       |-- ApiService.java
 |
 |-- eventsresponse
 |   |-- EventsFinderResponse.java
