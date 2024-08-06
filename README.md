@@ -45,7 +45,7 @@ com.event.eventsmanagement
 |
 |-- datauploaddownloadcontroller
 |   |-- DataCsvFileUploader.java
-|   |-- DataCsvFileUploader.java
+|   |-- DataCsvFileDownloader.java
 |
 |-- service
 |   |-- eventservice
