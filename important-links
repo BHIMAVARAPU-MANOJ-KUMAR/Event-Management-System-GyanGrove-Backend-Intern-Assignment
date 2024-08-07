@@ -62,3 +62,6 @@ Spring Boot Actuators
 
 https://www.adevguide.com/spring-boot-valid-vs-validated/
 Valid vs Validated
+
+https://stackoverflow.com/questions/37700352/setting-the-default-active-profile-in-spring-boot
+springboot profiles concept

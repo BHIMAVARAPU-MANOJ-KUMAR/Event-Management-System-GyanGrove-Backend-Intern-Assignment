@@ -83,7 +83,7 @@ public final class CSVHelper {
 			return events;
 		} catch (IOException ioException) {
 			LOGGER.error("Failed to Parse CSV File. " + ioException.getMessage(), ioException);
-			throw new IOException("Failed to Parse CSV File. " + ioException.getMessage());
+			throw new IOException("Failed to Parse CSV File." + ioException.getMessage());
 		}
 	}
 	
@@ -102,8 +102,8 @@ public final class CSVHelper {
 				List<String> dataList = Arrays.asList(
 						events2.getEventName(),
 						events2.getCityName(),
-						String.valueOf(events2.getDate()),
-						String.valueOf(events2.getTime()),
+						String.valueOf(events2.getDate().format(AppUtils.dateFormatter)),
+						String.valueOf(events2.getTime().format(AppUtils.timeFormatter)),
 						String.valueOf(events2.getLatitude()),
 						String.valueOf(events2.getLongitude())
 						);
@@ -114,7 +114,7 @@ public final class CSVHelper {
 			return new ByteArrayInputStream(out.toByteArray());
 		} catch (IOException ioException) {
 			LOGGER.error("Failed to Export data to CSV file. " + ioException.getMessage(), ioException);
-			throw new RuntimeException("Failed to Export data to CSV file. " + ioException.getMessage());
+			throw new RuntimeException("Failed to Export data to CSV file." + ioException.getMessage());
 		}
 	}
 }

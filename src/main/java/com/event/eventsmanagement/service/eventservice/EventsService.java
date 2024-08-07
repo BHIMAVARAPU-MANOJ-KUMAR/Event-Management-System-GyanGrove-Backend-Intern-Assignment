@@ -13,11 +13,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.event.eventsmanagement.dtos.EventsResponse;
+import com.event.eventsmanagement.dtos.EventsResponseWithExternalAPIs;
+import com.event.eventsmanagement.dtos.EventsFinderResponse;
 import com.event.eventsmanagement.dtos.EventsRequest;
 import com.event.eventsmanagement.entity.Events;
 import com.event.eventsmanagement.eventsrepository.EventsRepository;
-import com.event.eventsmanagement.eventsresponse.EventsResponseWithExternalAPIs;
-import com.event.eventsmanagement.eventsresponse.EventsFinderResponse;
 import com.event.eventsmanagement.externalapis.DistanceCalculationAPI;
 import com.event.eventsmanagement.externalapis.WeatherAPI;
 
@@ -40,8 +40,13 @@ public final class EventsService {
 	}
 
 	public final Events saveEvent(Events events) {
-		logger.info("Created a New Resource in the Database & INSERT Operation Success.");
-		return eventsRepository.save(events);
+		Events savedEvents = eventsRepository.save(events);
+		logger.info("Successfully inserted a new event into the database. "
+				+ "Event ID: {}, Event Name: {}, City: {}, Date: {}, Time: {}, Latitude: {}, Longitude: {}",
+				savedEvents.getId(), savedEvents.getEventName(), savedEvents.getCityName(),
+				savedEvents.getTime(), savedEvents.getDate(),
+				savedEvents.getLatitude(), savedEvents.getLongitude());
+		return savedEvents;
 	}
 	
 	public final EventsResponse saveEventAndGetResponse(EventsRequest eventsRequest) {
@@ -53,7 +58,11 @@ public final class EventsService {
 				eventsRequest.getLatitude(),
 				eventsRequest.getLongitude());
 		Events savedEvents = eventsRepository.save(events2);
-		logger.info("Created a New Resource in the Database & INSERT Operation Success.");
+		logger.info("Successfully inserted a new event into the database. "
+				+ "Event Name: {}, City: {}, Date: {}, Time: {}, Latitude: {}, Longitude: {}",
+				savedEvents.getEventName(), savedEvents.getCityName(),
+				savedEvents.getTime(), savedEvents.getDate(),
+				savedEvents.getLatitude(), savedEvents.getLongitude());
 		return new EventsResponse(
 				savedEvents.getEventName(),
 				savedEvents.getCityName(),
@@ -65,6 +74,7 @@ public final class EventsService {
 
 	public final EventsFinderResponse findEvents(double userLatitude, double userLongitude, LocalDate date, int page,
 			int size) {
+		logger.info("Fetching events within date range from {} to {} with page number {} and size {} ", date, date.plusDays(14), page, size);
 		Page<Events> eventsPage = eventsRepository.findByEventsWithinDateRange(date, date.plusDays(14),
 				PageRequest.of(page - 1, size, Sort.by("date").ascending()));
 		/**
@@ -165,7 +175,7 @@ public final class EventsService {
 					weatherFuture.join(), 
 					distanceCalFuture.join());
 		}).collect(Collectors.toList());
-		logger.info("Returning Available Events between Dates. Success.");
+		logger.info("Returned available events from {} to {} ", date, date.plusDays(14));
 		return new EventsFinderResponse(externalAPIs, page, size, eventsPage.getTotalElements(),
 				eventsPage.getTotalPages());
 	}

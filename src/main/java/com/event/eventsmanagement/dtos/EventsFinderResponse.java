@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.eventsresponse;
+package com.event.eventsmanagement.dtos;
 
 import java.util.List;
 

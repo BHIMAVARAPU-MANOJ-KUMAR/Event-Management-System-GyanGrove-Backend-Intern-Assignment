@@ -1,7 +1,9 @@
-package com.event.eventsmanagement.datauploaddownloadcontroller;
+package com.event.eventsmanagement.eventscontroller.eventdatauploadcontroller;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,8 @@ description = "API for Importing Data from .csv file to Database")
 @RestControllerAdvice
 public class DataCsvFileUploader {
 	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataCsvFileUploader.class);
+	
 	private final EventsFileService eventsFileService;
 	
 	public DataCsvFileUploader(EventsFileService eventsFileService) {
@@ -39,7 +43,7 @@ public class DataCsvFileUploader {
 			tags = {"CSV Uploader"},
 			description = "API for Importing Data from .csv file to Database")
 	@ApiResponse(content = {@Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)},
-	description = "File Data Imported")
+	description = "File Data Imported Successfully")
 	@PostMapping(value = {"/csv"}, headers = {"import-csv-api-version=1"},
 			consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<String> uploadCsvFile(@RequestParam("file") 
@@ -50,9 +54,9 @@ public class DataCsvFileUploader {
 		try {
 			eventsFileService.save(file);
 			message = "File Uploaded Successfully. " + file.getOriginalFilename();
-			ResponseEntity<String> responseEntity = new ResponseEntity<>(
-					message, HttpStatus.OK);
-			return responseEntity;
+			return ResponseEntity.ok()
+					.contentType(MediaType.MULTIPART_FORM_DATA)
+					.body(message);
 		} catch (IOException ioExe) {
 			ioExe.getCause();
 			ioExe.getMessage();

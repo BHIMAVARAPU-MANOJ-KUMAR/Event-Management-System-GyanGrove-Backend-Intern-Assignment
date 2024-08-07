@@ -30,8 +30,8 @@ public final class EventsFileService {
 			logger.info("Inserting all the Data from .csv File to the Database. IMPORT Operation Success.");
 			eventsRepository.saveAll(events);
 		} catch (IOException ioException) {
-			logger.error("Failed to Persist/Insert the .csv Data into Database. ", ioException.getMessage(), ioException);
-			throw new IOException("Failed to Persist/Insert the .csv Data into Database. " + ioException.getMessage());
+			logger.error("Failed to Persist/Insert the .csv File Data into Database.", ioException.getMessage(), ioException);
+			throw new IOException("Failed to Persist/Insert the .csv File Data into Database." + ioException.getMessage());
 		}
 	}
 
@@ -42,8 +42,8 @@ public final class EventsFileService {
 			logger.info("All the Data from Database writing to .csv File for EXPORT Operation.");
 			return stream;
 		} catch (IOException ioException) {
-			logger.error("Failed to Persist/Insert the .csv Data into Database. ", ioException.getMessage(), ioException);
-			throw new IOException("Failed to Persist/Insert the .csv Data into Database. " + ioException.getMessage());
+			logger.error("Failed to Export the Data from Database to .csv File.", ioException.getMessage(), ioException);
+			throw new IOException("Failed to Export the Data from Database to .csv File." + ioException.getMessage());
 		}
 	}
 }

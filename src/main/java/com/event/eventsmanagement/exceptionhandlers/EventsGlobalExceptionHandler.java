@@ -20,8 +20,7 @@ import com.event.eventsmanagement.eventscontroller.EventsController;
 import jakarta.servlet.http.HttpServletRequest;
 
 
-@RestControllerAdvice(basePackages = {"com.event.eventsmanagement.eventscontroller"},
-basePackageClasses = EventsController.class)
+@RestControllerAdvice(basePackageClasses = EventsController.class)
 public final class EventsGlobalExceptionHandler {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

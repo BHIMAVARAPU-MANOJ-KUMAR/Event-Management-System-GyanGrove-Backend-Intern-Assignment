@@ -46,12 +46,11 @@ public final class DistanceCalculationAPI {
 			ObjectMapper mapper = new ObjectMapper();
 			final String distanceCalculation = restTemplate.getForObject(distanceCalculationAPI, 
 					String.class);
-			LOGGER.info("Distance API Response :- {}", distanceCalculation);
 			JsonNode jsonNode = mapper.readTree(distanceCalculation);
 			return jsonNode.get("distance").asDouble();
 		} catch (Exception e) {
-			LOGGER.error("Failed to parse distance from API response", e.getMessage(),e);
-			throw new RuntimeException("Failed to parse distance from API response", e);
+			LOGGER.error("Failed to parse distance from the API.", e.getMessage(), e);
+			throw new RuntimeException("Failed to parse distance from the API.", e);
 		}
 	}
 }

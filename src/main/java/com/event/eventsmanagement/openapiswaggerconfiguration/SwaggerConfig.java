@@ -35,16 +35,39 @@ public class SwaggerConfig {
 	
 	@Bean(name = "AdminAPI1")
 	GroupedOpenApi adminApi1() {
-		String[] pathsToMatch = {"/api/v1/import/csv", "/api/v1/export/csv"};
-		String[] packagedToMatch = {"com.event.eventsmanagement.datauploaddownloadcontroller"};
+		String[] pathsToMatch = {"/api/v1/import/csv"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller.eventdatauploadcontroller"};
 		return GroupedOpenApi.builder()
-				.group("admin-File Resource APIs")
+				.group("admin-CSV File Upload API")
 				.pathsToMatch(pathsToMatch)
 				.packagesToScan(packagedToMatch)
 				.addOpenApiCustomizer(openAPIs -> {
 					openAPIs.info(new Info()
-							.title("File Resource Import Export APIs")
-							.description("This is the Admin API for Import & Export Data Operations")
+							.title("File Resource Import API")
+							.description("This is the Admin API for Import Data Operation")
+							.version("2.6.0")
+							.contact(new Contact()
+									.name("Manoj Kumar Reddy")
+									.email("manojbh1999@gmail.com"))
+							.license(new License()
+									.name("Apache 2.0")
+									.url("http://springdoc.org")));
+				})
+				.build();
+	}
+	
+	@Bean(name = "AdminAPI3")
+	GroupedOpenApi adminApi3() {
+		String[] pathsToMatch = {"/api/v1/export/csv"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller.eventdatadownloadcontroller"};
+		return GroupedOpenApi.builder()
+				.group("admin-CSV File Download API")
+				.pathsToMatch(pathsToMatch)
+				.packagesToScan(packagedToMatch)
+				.addOpenApiCustomizer(openAPIs -> {
+					openAPIs.info(new Info()
+							.title("File Resource Export API")
+							.description("This is the Admin API for Export Data Operation")
 							.version("2.6.0")
 							.contact(new Contact()
 									.name("Manoj Kumar Reddy")

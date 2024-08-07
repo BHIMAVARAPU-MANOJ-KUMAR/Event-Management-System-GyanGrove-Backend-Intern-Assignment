@@ -40,7 +40,6 @@ public final class WeatherAPI {
 			RestTemplate restTemplate = new RestTemplate();
 			ObjectMapper mapper = new ObjectMapper();
 			final String weather = restTemplate.getForObject(weatherAPI, String.class);
-			LOGGER.info("Weather API Response :- {}", weather);
 			JsonNode jsonNode = mapper.readTree(weather);
 			return jsonNode.get("weather").asText();
 		} catch (RestClientException restClientException) {

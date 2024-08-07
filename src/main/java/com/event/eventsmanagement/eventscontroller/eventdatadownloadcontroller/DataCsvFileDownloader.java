@@ -1,6 +1,9 @@
-package com.event.eventsmanagement.datauploaddownloadcontroller;
+package com.event.eventsmanagement.eventscontroller.eventdatadownloadcontroller;
 
 import java.io.IOException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -22,8 +25,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(value = {"api/v1/export"})
 @Tag(name = "CSV Downloader", 
-description = "API for Exporting Data from Database to .csv file format")
+description = "API for Exporting Data from Database to .csv file")
 public class DataCsvFileDownloader {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(DataCsvFileDownloader.class);
 	
 	private final EventsFileService eventsFileService;
 	
