@@ -13,6 +13,7 @@ This project is a RESTful service that manages and queries event data based on a
 - **Swagger/OpenAPI**: For API Documentation using the dependencies from [springdoc-openapi v2.6.0](https://springdoc.org/)
 - **Docker**: To Containerize the Application. **Containerization** is a Software Development process that bundles an Application's code with all the files and libraries, .jar files it needs to run on any infrastructure. With this Software process developers can package their applications and their dependencies together in a single container. This container can then be easily shipped and deployed on any platform that supports them. 
 - **Error Handling**: Robust error handling for external API failures and other potential issues.
+- **Logging**: Logging is an essential feature for **monitoring** and **debugging** the application. It helps in tracking the flow of the application, recording significant events, and diagnosing issues. In this project, we have implemented a comprehensive logging mechanism (INFO, DEBUG, ERROR) to capture various aspects of the application's behavior.
 
 ## Tech Stack and Database Choice
 
@@ -27,6 +28,66 @@ This project is a RESTful service that manages and queries event data based on a
 - **RESTful API Design**: Ensures Scalable and Stateless Communication between the Client (**Postman**) and Server (**Backend Application**).
 - **Pagination & Sorting**: Implements pagination to manage large sets of data and improve performance.
 - **External API Integration**: Retrieves Weather data and calculates distances dynamically, enhancing the relevance of event information.
+- **Logging**: Logging is an essential feature for **monitoring** and **debugging** the application. It helps in tracking the flow of the application, recording significant events, and diagnosing issues. In this project, we have implemented a comprehensive logging mechanism (INFO, DEBUG, ERROR) to capture various aspects of the application's behavior.
+- **Key Features of Logging**:
+  1. **Informational Logs**:
+     - **Logs key events and important milestones within the application.**
+     - **Example**:
+       ```sh
+       LOGGER.info("Successfully fetched data from the database.");
+       ```
+  2. **Debug Logs**:
+     - **Provides detailed information useful during the debugging process.**
+     - **Example**:
+       ```sh
+       LOGGER.debug("Entering method calculateDistance with parameters: lat1={}, lon1={}, lat2={}, lon2={}", lat1, lon1, lat2, lon2);
+       ```
+  3. **Error Logs**:
+     - **Captures exceptions and errors that occur during the execution of the application.**
+     - **Example**:
+       ```sh
+       LOGGER.error("Exception occurred while processing the request", ex);
+       ```
+  4. **Method Entry and Exit Logs**:
+     - **Logs entry and exit points of methods to trace the flow of execution.**
+     - **Example**:
+       ```sh
+       LOGGER.info("Entering method createNewEvent.");
+       LOGGER.info("Exiting method createNewEvent.");
+       ```
+  5. **External API Call Logs**:
+     - **Logs details when calling external APIs, including the request and response status.**
+     - **Example**:
+       ```sh
+       LOGGER.info("Calling Weather API for city: {}", cityName);
+       ```
+  6. **Configuration and Initialization Logs**:
+     - **Logs configuration settings and initialization steps.**
+     - **Example**:
+       ```sh
+       LOGGER.info("Initializing application with configuration: {}", config);
+       ```
+- **How Logging is Implemented**:
+  1. **Logger Initialization**:
+     - **Each class where logging is required initializes a logger instance.**
+     ```sh
+     private static final Logger LOGGER = LoggerFactory.getLogger(ClassName.class);
+     ```
+  2. **Log Levels**:
+     - **Different log levels (INFO, DEBUG, ERROR) are used based on the importance and purpose of the log message.**
+  3. **External Libraries**:
+     - **The project uses SLF4J (Simple Logging Facade for Java) along with a logging framework such as Logback or Log4j for flexible and efficient logging.**
+- **Benefits of Logging**:
+  1. **Monitoring**:
+     - **Helps in keeping track of the application's behavior in a production environment.**
+  2. **Debugging**:
+     - **Aids developers in diagnosing and resolving issues by providing a detailed execution trace.**
+  3. **Auditing**:
+     - **Maintains a record of significant events and transactions for audit purposes.**
+  4. **Performance Analysis**:
+     - **Assists in identifying performance bottlenecks by analyzing the execution flow and timing.**
+- **By implementing a robust logging mechanism, we ensure that the application is maintainable, easier to debug, and provides valuable insights into its operation.**
+
 - **Package by Layer**: Choosing a package-by-layer architecture for the Events Management System project offers several benefits, particularly in terms of organization, maintainability, and scalability. Here’s a detailed explanation of why this approach was chosen:
  
   1. **Seperation of Concerns**: **Modularity** Each layer in the package-by-layer approach has a distinct responsibility, which leads to a clear separation of concerns. For instance, the service layer handles business logic, the controller layer manages incoming HTTP requests, and the repository layer interacts with the database. **Maintainability** By separating different concerns into distinct layers, it becomes easier to maintain and update the code. Changes in one layer (e.g., updating business logic) do not directly affect other layers (e.g., controllers or repositories).
@@ -41,11 +102,11 @@ Here's how the package structure might look:
 com.event.eventsmanagement
 |
 |-- eventscontroller
+|   |-- eventdatadownloadcontroller
+|       |-- DataCsvFileDownloader.java
+|   |-- eventdatauploadcontroller
+|       |-- DataCsvFileUploader.java
 |   |-- EventsController.java
-|
-|-- datauploaddownloadcontroller
-|   |-- DataCsvFileUploader.java
-|   |-- DataCsvFileDownloader.java
 |
 |-- service
 |   |-- eventservice
@@ -62,6 +123,8 @@ com.event.eventsmanagement
 |-- dtos
 |   |-- EventsRequest.java
 |   |-- EventsResponse.java
+|   |-- EventsFinderResponse.java
+|   |-- EventsResponseWithExternalAPIs.java
 |
 |-- openapiswaggerconfiguration
 |   |-- SwaggerConfig.java
@@ -79,10 +142,6 @@ com.event.eventsmanagement
 |   |-- WeatherAPI.java
 |   |-- apiservice
 |       |-- ApiService.java
-|
-|-- eventsresponse
-|   |-- EventsFinderResponse.java
-|   |-- EventsResponseWithExternalAPIs.java
 |
 |-- mainapplication
 |   |-- EventsmanagementApplication.java
