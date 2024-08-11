@@ -31,7 +31,7 @@ uniqueConstraints = @UniqueConstraint(
 		name = "event_id_unique"
 		)
 )
-public final class Events {
+public final class Event {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,7 +88,7 @@ public final class Events {
 	private Double longitude;
 	
 	
-	public Events(String eventName, String cityName, LocalDate date, LocalTime time, double latitude,
+	public Event(String eventName, String cityName, LocalDate date, LocalTime time, double latitude,
 			double longitude) {
 		this.eventName = eventName;
 		this.cityName = cityName;

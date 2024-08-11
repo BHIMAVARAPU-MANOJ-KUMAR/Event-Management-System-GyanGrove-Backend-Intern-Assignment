@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.dtos;
+package com.event.eventsmanagement.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class EventsRequest {
+public class EventRequest {
 	
 	@NotNull(message = "Event Name must not be Null")
 	@NotEmpty(message = "Event Name must not be Empty")
@@ -33,7 +33,7 @@ public class EventsRequest {
 	@NotNull(message = "Longitude Coordinates are mandatory")
 	private Double longitude;
 	
-	public EventsRequest(String event_name,
+	public EventRequest(String event_name,
 			String city_name,
 			LocalDate _date,
 			LocalTime _time,

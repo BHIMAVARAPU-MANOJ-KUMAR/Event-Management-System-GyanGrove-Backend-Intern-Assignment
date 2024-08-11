@@ -15,13 +15,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.event.eventsmanagement.eventscontroller.EventsController;
+import com.event.eventsmanagement.eventcontroller.EventController;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 
-@RestControllerAdvice(basePackageClasses = EventsController.class)
-public final class EventsGlobalExceptionHandler {
+@RestControllerAdvice(basePackageClasses = EventController.class,
+basePackages = "com.event.eventsmanagement.eventscontroller")
+public final class EventGlobalExceptionHandler {
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = {MethodArgumentNotValidException.class})

@@ -12,11 +12,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import com.event.eventsmanagement.eventscontroller.eventdatauploadcontroller.DataCsvFileUploader;
+import com.event.eventsmanagement.uploadcontroller.DataCsvFileUploader;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-@RestControllerAdvice(basePackageClasses = DataCsvFileUploader.class)
+@RestControllerAdvice(basePackageClasses = DataCsvFileUploader.class,
+basePackages = "com.event.eventsmanagement.uploadcontroller")
 public class FileResourceGlobalExceptionHandler {
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)

@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.eventscontroller.eventdatadownloadcontroller;
+package com.event.eventsmanagement.downloadcontroller;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.event.eventsmanagement.applicationutils.AppUtils;
-import com.event.eventsmanagement.service.eventfileservice.EventsFileService;
+import com.event.eventsmanagement.service.eventfileservice.EventFileService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,9 +30,9 @@ public class DataCsvFileDownloader {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataCsvFileDownloader.class);
 	
-	private final EventsFileService eventsFileService;
+	private final EventFileService eventsFileService;
 	
-	public DataCsvFileDownloader(EventsFileService eventsFileService) {
+	public DataCsvFileDownloader(EventFileService eventsFileService) {
 		this.eventsFileService = eventsFileService;
 	}
 	

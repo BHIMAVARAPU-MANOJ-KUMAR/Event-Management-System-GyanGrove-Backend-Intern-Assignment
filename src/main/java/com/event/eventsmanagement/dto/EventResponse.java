@@ -1,11 +1,11 @@
-package com.event.eventsmanagement.dtos;
+package com.event.eventsmanagement.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import lombok.Data;
 
 @Data
-public final class EventsResponse {
+public final class EventResponse {
 	
 	private String eventName;
 	private String cityName;
@@ -14,7 +14,7 @@ public final class EventsResponse {
 	private Double latitude;
 	private Double longitude;
 	
-	public EventsResponse(String event_name,
+	public EventResponse(String event_name,
 			String city_name,
 			LocalDate _date,
 			LocalTime _time,

@@ -1,8 +1,8 @@
-package com.event.eventsmanagement.dtos;
+package com.event.eventsmanagement.dto;
 
 import java.time.LocalDate;
 
-public record EventsResponseWithExternalAPIs(String event_name,
+public record EventResponseWithExternalAPI(String event_name,
 		String city_name,
 		LocalDate date,
 		String weather,

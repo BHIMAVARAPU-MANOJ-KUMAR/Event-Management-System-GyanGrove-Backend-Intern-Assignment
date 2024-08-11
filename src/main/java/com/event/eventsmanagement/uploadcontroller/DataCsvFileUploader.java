@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.eventscontroller.eventdatauploadcontroller;
+package com.event.eventsmanagement.uploadcontroller;
 
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.event.eventsmanagement.applicationutils.CSVHelper;
-import com.event.eventsmanagement.service.eventfileservice.EventsFileService;
+import com.event.eventsmanagement.service.eventfileservice.EventFileService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,9 +33,9 @@ public class DataCsvFileUploader {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataCsvFileUploader.class);
 	
-	private final EventsFileService eventsFileService;
+	private final EventFileService eventsFileService;
 	
-	public DataCsvFileUploader(EventsFileService eventsFileService) {
+	public DataCsvFileUploader(EventFileService eventsFileService) {
 		this.eventsFileService = eventsFileService;
 	}
 	

@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.openapiswaggerconfiguration;
+package com.event.eventsmanagement.openapiconfiguration;
 
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
@@ -8,12 +8,12 @@ import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 
 @Configuration(value = "Swagger Configuration")
-public class SwaggerConfig {
+public class SwaggerConfiguration {
 	
 	@Bean(name = "PublicAPI")
 	GroupedOpenApi publicApi() {
 		String[] pathsToMatch = {"/api/v1/events/find"};
-		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller"}; 
+		String[] packagedToMatch = {"com.event.eventsmanagement.eventcontroller"}; 
 		return GroupedOpenApi.builder()
 				.group("public-Events Finder API")
 				.pathsToMatch(pathsToMatch)
@@ -36,7 +36,7 @@ public class SwaggerConfig {
 	@Bean(name = "AdminAPI1")
 	GroupedOpenApi adminApi1() {
 		String[] pathsToMatch = {"/api/v1/import/csv"};
-		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller.eventdatauploadcontroller"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.uploadcontroller"};
 		return GroupedOpenApi.builder()
 				.group("admin-CSV File Upload API")
 				.pathsToMatch(pathsToMatch)
@@ -59,7 +59,7 @@ public class SwaggerConfig {
 	@Bean(name = "AdminAPI3")
 	GroupedOpenApi adminApi3() {
 		String[] pathsToMatch = {"/api/v1/export/csv"};
-		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller.eventdatadownloadcontroller"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.downloadcontroller"};
 		return GroupedOpenApi.builder()
 				.group("admin-CSV File Download API")
 				.pathsToMatch(pathsToMatch)
@@ -82,7 +82,7 @@ public class SwaggerConfig {
 	@Bean(name = "AdminAPI2")
 	GroupedOpenApi adminApi2() {
 		String[] pathsToMatch = {"/api/v1/events/event", "/api/v1/events/events"};
-		String[] packagedToMatch = {"com.event.eventsmanagement.eventscontroller"};
+		String[] packagedToMatch = {"com.event.eventsmanagement.eventcontroller"};
 		return GroupedOpenApi.builder()
 				.group("admin-Event Creation APIs")
 				.pathsToMatch(pathsToMatch)

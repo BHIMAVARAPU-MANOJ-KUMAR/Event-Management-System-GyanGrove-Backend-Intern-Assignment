@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.event.eventsmanagement.entity.Events;
+import com.event.eventsmanagement.entity.Event;
 
 //@Component(value = "CSVHelper")
 /**
@@ -43,7 +43,7 @@ public final class CSVHelper {
 		return true;
 	}
 	
-	public static final List<Events> csvToEventsParser(InputStream inputStream) throws IOException, RuntimeException {
+	public static final List<Event> csvToEventsParser(InputStream inputStream) throws IOException, RuntimeException {
 		try (BufferedReader bufferedReader = 
 				new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
 				CSVParser csvParser = new CSVParser(bufferedReader, CSVFormat
@@ -55,7 +55,7 @@ public final class CSVHelper {
 						.build());
 				){
 			
-			List<Events> events = new ArrayList<Events>();
+			List<Event> events = new ArrayList<Event>();
 			
 			Iterable<CSVRecord> csvRecordIterable = csvParser.getRecords();
 			
@@ -70,7 +70,7 @@ public final class CSVHelper {
 				String longitudeString = record.get("longitude");
 				double latitude = Double.parseDouble(latitudeString);
                 double longitude = Double.parseDouble(longitudeString);
-				Events events1 = new Events(eventName,
+				Event events1 = new Event(eventName,
 						cityName,
 						date,
 						time,
@@ -87,7 +87,7 @@ public final class CSVHelper {
 		}
 	}
 	
-	public static final ByteArrayInputStream eventsToCsv(List<Events> events) throws IOException, RuntimeException{
+	public static final ByteArrayInputStream eventsToCsv(List<Event> events) throws IOException, RuntimeException{
 		final CSVFormat format = CSVFormat.DEFAULT.
 				builder()
 				.setQuoteMode(QuoteMode.MINIMAL)
@@ -98,7 +98,7 @@ public final class CSVHelper {
 		
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream();
 				CSVPrinter csvPrinter = new CSVPrinter(new PrintWriter(out), format);) {
-			for(Events events2 : events) {
+			for(Event events2 : events) {
 				List<String> dataList = Arrays.asList(
 						events2.getEventName(),
 						events2.getCityName(),

@@ -1,4 +1,4 @@
-package com.event.eventsmanagement.eventsrepository;
+package com.event.eventsmanagement.eventrepository;
 
 import java.time.LocalDate;
 
@@ -9,13 +9,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.event.eventsmanagement.entity.Events;
+import com.event.eventsmanagement.entity.Event;
 
-public interface EventsRepository extends JpaRepository<Events, Long>, 
-PagingAndSortingRepository<Events, Long> {
+public interface EventRepository extends JpaRepository<Event, Long>, 
+PagingAndSortingRepository<Event, Long> {
 	
 	@Query("SELECT e FROM Events e WHERE e.date "
 			+ "BETWEEN :startDate AND :endDate ORDER BY e.date ASC")
-	public abstract Page<Events> findByEventsWithinDateRange(@Param("startDate") LocalDate startDate,
+	public abstract Page<Event> findByEventsWithinDateRange(@Param("startDate") LocalDate startDate,
 			@Param("endDate") LocalDate endDate, Pageable pageable);
 }

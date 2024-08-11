@@ -10,23 +10,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.event.eventsmanagement.applicationutils.CSVHelper;
-import com.event.eventsmanagement.entity.Events;
-import com.event.eventsmanagement.eventsrepository.EventsRepository;
+import com.event.eventsmanagement.entity.Event;
+import com.event.eventsmanagement.eventrepository.EventRepository;
 
 @Service(value = "EventsFileService")
-public final class EventsFileService {
+public final class EventFileService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(EventsFileService.class);
+	private static final Logger logger = LoggerFactory.getLogger(EventFileService.class);
 	
-	private final EventsRepository eventsRepository;
+	private final EventRepository eventsRepository;
 	
-	public EventsFileService(EventsRepository repository) {
+	public EventFileService(EventRepository repository) {
 		this.eventsRepository = repository;
 	}
 	
 	public final void save(MultipartFile file) throws IOException, RuntimeException {
 		try {
-			List<Events> events = CSVHelper.csvToEventsParser(file.getInputStream());
+			List<Event> events = CSVHelper.csvToEventsParser(file.getInputStream());
 			logger.info("Inserting all the Data from .csv File to the Database. IMPORT Operation Success.");
 			eventsRepository.saveAll(events);
 		} catch (IOException ioException) {
@@ -37,7 +37,7 @@ public final class EventsFileService {
 
 	public final ByteArrayInputStream load() throws IOException, RuntimeException {
 		try {
-			List<Events> events = eventsRepository.findAll();
+			List<Event> events = eventsRepository.findAll();
 			ByteArrayInputStream stream = CSVHelper.eventsToCsv(events);
 			logger.info("All the Data from Database writing to .csv File for EXPORT Operation.");
 			return stream;

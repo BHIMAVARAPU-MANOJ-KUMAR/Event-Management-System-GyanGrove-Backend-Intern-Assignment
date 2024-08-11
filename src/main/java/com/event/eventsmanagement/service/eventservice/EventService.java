@@ -12,35 +12,35 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import com.event.eventsmanagement.dtos.EventsResponse;
-import com.event.eventsmanagement.dtos.EventsResponseWithExternalAPIs;
-import com.event.eventsmanagement.dtos.EventsFinderResponse;
-import com.event.eventsmanagement.dtos.EventsRequest;
-import com.event.eventsmanagement.entity.Events;
-import com.event.eventsmanagement.eventsrepository.EventsRepository;
+import com.event.eventsmanagement.dto.EventFinderResponse;
+import com.event.eventsmanagement.dto.EventRequest;
+import com.event.eventsmanagement.dto.EventResponse;
+import com.event.eventsmanagement.dto.EventResponseWithExternalAPI;
+import com.event.eventsmanagement.entity.Event;
+import com.event.eventsmanagement.eventrepository.EventRepository;
 import com.event.eventsmanagement.externalapis.DistanceCalculationAPI;
 import com.event.eventsmanagement.externalapis.WeatherAPI;
 
 @Service(value = "EventsService")
-public final class EventsService {
+public final class EventService {
 	
-	private static final Logger logger = LoggerFactory.getLogger(EventsService.class); 
+	private static final Logger logger = LoggerFactory.getLogger(EventService.class); 
 
-	private final EventsRepository eventsRepository;
+	private final EventRepository eventsRepository;
 	
 	private final WeatherAPI weatherAPI;
 	
 	private final DistanceCalculationAPI calculationAPI;
 	
-	public EventsService(EventsRepository repository, WeatherAPI weatherAPI,
+	public EventService(EventRepository repository, WeatherAPI weatherAPI,
 			DistanceCalculationAPI calculationAPI) {
 		this.eventsRepository = repository;
 		this.weatherAPI=weatherAPI;
 		this.calculationAPI=calculationAPI;
 	}
 
-	public final Events saveEvent(Events events) {
-		Events savedEvents = eventsRepository.save(events);
+	public final Event saveEvent(Event events) {
+		Event savedEvents = eventsRepository.save(events);
 		logger.info("Successfully inserted a new event into the database. "
 				+ "Event ID: {}, Event Name: {}, City: {}, Date: {}, Time: {}, Latitude: {}, Longitude: {}",
 				savedEvents.getId(), savedEvents.getEventName(), savedEvents.getCityName(),
@@ -49,21 +49,21 @@ public final class EventsService {
 		return savedEvents;
 	}
 	
-	public final EventsResponse saveEventAndGetResponse(EventsRequest eventsRequest) {
-		Events events2 = new Events(
+	public final EventResponse saveEventAndGetResponse(EventRequest eventsRequest) {
+		Event events2 = new Event(
 				eventsRequest.getEventName(),
 				eventsRequest.getCityName(),
 				eventsRequest.getDate(),
 				eventsRequest.getTime(),
 				eventsRequest.getLatitude(),
 				eventsRequest.getLongitude());
-		Events savedEvents = eventsRepository.save(events2);
+		Event savedEvents = eventsRepository.save(events2);
 		logger.info("Successfully inserted a new event into the database. "
 				+ "Event Name: {}, City: {}, Date: {}, Time: {}, Latitude: {}, Longitude: {}",
 				savedEvents.getEventName(), savedEvents.getCityName(),
 				savedEvents.getTime(), savedEvents.getDate(),
 				savedEvents.getLatitude(), savedEvents.getLongitude());
-		return new EventsResponse(
+		return new EventResponse(
 				savedEvents.getEventName(),
 				savedEvents.getCityName(),
 				savedEvents.getDate(),
@@ -72,10 +72,10 @@ public final class EventsService {
 				savedEvents.getLongitude());
 	}
 
-	public final EventsFinderResponse findEvents(double userLatitude, double userLongitude, LocalDate date, int page,
+	public final EventFinderResponse findEvents(double userLatitude, double userLongitude, LocalDate date, int page,
 			int size) {
 		logger.info("Fetching events within date range from {} to {} with page number {} and size {} ", date, date.plusDays(14), page, size);
-		Page<Events> eventsPage = eventsRepository.findByEventsWithinDateRange(date, date.plusDays(14),
+		Page<Event> eventsPage = eventsRepository.findByEventsWithinDateRange(date, date.plusDays(14),
 				PageRequest.of(page - 1, size, Sort.by("date").ascending()));
 		/**
 		 * Can use parallerStream() also -> but because of the smaller dataset here we
@@ -162,21 +162,21 @@ public final class EventsService {
 		 * Choose the one that best fits your specific use case and performance
 		 * requirements.
 		 */
-		List<EventsResponseWithExternalAPIs> externalAPIs = eventsPage.getContent().stream().map(event -> {
+		List<EventResponseWithExternalAPI> externalAPIs = eventsPage.getContent().stream().map(event -> {
 			CompletableFuture<String> weatherFuture = CompletableFuture
 					.supplyAsync(() -> weatherAPI.fetchWeather(event.getCityName(), event.getDate()));
 			CompletableFuture<Double> distanceCalFuture = CompletableFuture.supplyAsync(() -> calculationAPI
 					.calculateDistance(userLatitude, userLongitude, event.getLatitude(), event.getLongitude()));
 			CompletableFuture.allOf(weatherFuture, distanceCalFuture).join();
 			
-			return new EventsResponseWithExternalAPIs(event.getEventName(),
+			return new EventResponseWithExternalAPI(event.getEventName(),
 					event.getCityName(),
 					event.getDate(),
 					weatherFuture.join(), 
 					distanceCalFuture.join());
 		}).collect(Collectors.toList());
 		logger.info("Returned available events from {} to {} ", date, date.plusDays(14));
-		return new EventsFinderResponse(externalAPIs, page, size, eventsPage.getTotalElements(),
+		return new EventFinderResponse(externalAPIs, page, size, eventsPage.getTotalElements(),
 				eventsPage.getTotalPages());
 	}
 }
