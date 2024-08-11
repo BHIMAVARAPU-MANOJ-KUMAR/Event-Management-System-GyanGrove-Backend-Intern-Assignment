@@ -101,40 +101,42 @@ Here's how the package structure might look:
 ```
 com.event.eventsmanagement
 |
-|-- eventscontroller
-|   |-- eventdatadownloadcontroller
-|       |-- DataCsvFileDownloader.java
-|   |-- eventdatauploadcontroller
-|       |-- DataCsvFileUploader.java
-|   |-- EventsController.java
+|-- eventcontroller
+|   |-- EventController.java
+|
+|-- downloadcontroller
+|   |-- DataCsvFileDownloader.java
+|
+|-- uploadcontroller
+|   |-- DataCsvFileUploader.java
 |
 |-- service
 |   |-- eventservice
-|       |-- EventsService.java
+|       |-- EventService.java
 |   |-- eventfileservice
-|       |-- EventsFileService.java
+|       |-- EventFileService.java
 |
-|-- eventsrepository
-|   |-- EventsRepository.java
+|-- eventrepository
+|   |-- EventRepository.java
 |
 |-- entity
-|   |-- Events.java
+|   |-- Event.java
 |
-|-- dtos
-|   |-- EventsRequest.java
-|   |-- EventsResponse.java
-|   |-- EventsFinderResponse.java
-|   |-- EventsResponseWithExternalAPIs.java
+|-- dto
+|   |-- EventRequest.java
+|   |-- EventResponse.java
+|   |-- EventFinderResponse.java
+|   |-- EventResponseWithExternalAPI.java
 |
-|-- openapiswaggerconfiguration
-|   |-- SwaggerConfig.java
+|-- openapiconfiguration
+|   |-- SwaggerConfiguration.java
 |
-|-- applicationutil
+|-- applicationutils
 |   |-- CsvHelper.java
 |   |-- AppUtils.java
 |
 |-- exceptionhandlers
-|   |-- EventsGlobalExceptionHandler.java
+|   |-- EventGlobalExceptionHandler.java
 |   |-- FileResourceGlobalExceptionHandler.java
 |
 |-- externalapis
