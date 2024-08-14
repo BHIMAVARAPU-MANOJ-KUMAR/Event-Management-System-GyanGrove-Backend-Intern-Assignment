@@ -40,10 +40,10 @@ public class EventController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(EventController.class);
 	
-	private final EventService eventsService;
+	private final EventService eventService;
 	
 	public EventController(EventService service) {
-		this.eventsService = service;
+		this.eventService=service;
 	}
 	
 	@Tag(name = "Event Creation Version-1",
@@ -56,7 +56,7 @@ public class EventController {
 	@PostMapping(value = {"/event"}, headers = {"event-api-version=1"}, produces = {"application/v1+json"})
 	public ResponseEntity<Event> createNewEvent(@Valid @RequestBody Event events) throws Exception {
 		LOGGER.info("Create New Event API (Version 1) invoked.");
-		Event savedEvents = eventsService.saveEvent(events);
+		Event savedEvents = eventService.saveEvent(events);
 		LOGGER.info("Http Status: {} Http Status Code: {} Http Series: {} ", HttpStatus.CREATED.toString(), HttpStatusCode.valueOf(201).toString(), Series.SUCCESSFUL.toString());
 		ResponseEntity<Event> responseEntity = new ResponseEntity<>(
 				savedEvents, HttpStatus.CREATED);
@@ -73,7 +73,7 @@ public class EventController {
 	@PostMapping(value = {"/events"}, headers = {"events-api-version=2"}, produces = {"application/v2+json"})
 	public ResponseEntity<EventResponse> createEvent(@Valid @RequestBody EventRequest events) throws Exception {
 		LOGGER.info("Create New Event API (Version 2) invoked.");
-		EventResponse dto = eventsService.saveEventAndGetResponse(events);
+		EventResponse dto = eventService.saveEventAndGetResponse(events);
 		LOGGER.info("Http Status: {} Http Status Code: {} Http Series: {} ", HttpStatus.CREATED.toString(), HttpStatusCode.valueOf(201).toString(), Series.SUCCESSFUL.toString());
 		ResponseEntity<EventResponse> responseEntity = new ResponseEntity<>(dto, HttpStatus.CREATED);
 		return responseEntity;
@@ -93,7 +93,7 @@ public class EventController {
 			@RequestParam int page,
 			@RequestParam int size) throws Exception {
 		LOGGER.info("FindEvents API (Version 1) invoked. Finding events from {} to {} ", date, date.plusDays(14));
-		EventFinderResponse events = eventsService.findEvents(latitude, longitude, date, page,
+		EventFinderResponse events = eventService.findEvents(latitude, longitude, date, page,
 				size);
 		LOGGER.info("Http Status: {} Http Status Code: {} Http Series: {} ", HttpStatus.OK.toString(), HttpStatusCode.valueOf(200).toString(), Series.SUCCESSFUL.toString());
 		return ResponseEntity.ok()

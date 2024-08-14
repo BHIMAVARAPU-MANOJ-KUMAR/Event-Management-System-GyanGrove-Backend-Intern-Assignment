@@ -30,10 +30,10 @@ public class DataCsvFileDownloader {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataCsvFileDownloader.class);
 	
-	private final EventFileService eventsFileService;
+	private final EventFileService eventFileService;
 	
-	public DataCsvFileDownloader(EventFileService eventsFileService) {
-		this.eventsFileService = eventsFileService;
+	public DataCsvFileDownloader(EventFileService eventFileService) {
+		this.eventFileService = eventFileService;
 	}
 	
 	@Operation(summary = "Export Data", description = "API for Exporting Data from Database to .csv file",
@@ -43,7 +43,8 @@ public class DataCsvFileDownloader {
 	@GetMapping(value = {"/csv"}, headers = {"export-csv-api-version=1"})
 	public ResponseEntity<?> downloadFile() throws IOException,
 	Exception {
-		InputStreamResource file = new InputStreamResource(eventsFileService.load());
+		LOGGER.info("Initiating file download: Preparing to download CSV file containing Event data.");
+		InputStreamResource file = new InputStreamResource(eventFileService.load());
 		return ResponseEntity.ok()
 		        .header(HttpHeaders.CONTENT_DISPOSITION, 
 		        		"attachment; filename=" + AppUtils.filename)

@@ -79,11 +79,11 @@ public final class CSVHelper {
 				
 				events.add(events1);
 			}
-			LOGGER.info("Performing .csv File Data to Events Parser Success.");
+			LOGGER.info("CSV file successfully parsed into Event data.");
 			return events;
 		} catch (IOException ioException) {
-			LOGGER.error("Failed to Parse CSV File. " + ioException.getMessage(), ioException);
-			throw new IOException("Failed to Parse CSV File." + ioException.getMessage());
+			LOGGER.error("Failed to parse CSV file into Event data: {} ", ioException.getMessage(), ioException);
+			throw new IOException("Failed to Parse CSV File into Event data." + ioException.getMessage());
 		}
 	}
 	
@@ -110,10 +110,10 @@ public final class CSVHelper {
 				csvPrinter.printRecord(dataList);
 			}
 			csvPrinter.flush();
-			LOGGER.info("Performing Events to .csv CSVPrinter Operation Success.");
+			LOGGER.info("Successfully exported Event data to CSV file.");
 			return new ByteArrayInputStream(out.toByteArray());
 		} catch (IOException ioException) {
-			LOGGER.error("Failed to Export data to CSV file. " + ioException.getMessage(), ioException);
+			LOGGER.error("Failed to export Event data to CSV file: {} " + ioException.getMessage(), ioException);
 			throw new RuntimeException("Failed to Export data to CSV file." + ioException.getMessage());
 		}
 	}

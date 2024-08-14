@@ -18,4 +18,12 @@ PagingAndSortingRepository<Event, Long> {
 			+ "BETWEEN :startDate AND :endDate ORDER BY e.date ASC")
 	public abstract Page<Event> findByEventsWithinDateRange(@Param("startDate") LocalDate startDate,
 			@Param("endDate") LocalDate endDate, Pageable pageable);
+	
+//	SELECT * FROM "function_find_events_within_date_range"('2024-03-14', '2024-03-28');
+//	SELECT "function_find_events_within_date_range"('2024-03-14', '2024-03-28');
+//	SELECT COUNT(*) FROM "function_find_events_within_date_range"('2024-03-14', '2024-03-28');
+	@Query(value = "SELECT * FROM function_find_events_within_date_range(:startDate, :endDate)",
+			nativeQuery = true)
+	public abstract Page<Event> findByEventsWithinDateRange1(@Param("startDate") LocalDate startDate,
+			@Param("endDate") LocalDate endDate, Pageable pageable);
 }

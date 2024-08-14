@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestControllerAdvice(basePackageClasses = DataCsvFileUploader.class,
 basePackages = "com.event.eventsmanagement.uploadcontroller")
-public class FileResourceGlobalExceptionHandler {
+public final class FileResourceGlobalExceptionHandler {
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(value = {MissingServletRequestPartException.class})

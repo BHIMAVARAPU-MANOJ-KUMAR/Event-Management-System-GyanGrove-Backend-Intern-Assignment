@@ -33,10 +33,10 @@ public class DataCsvFileUploader {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DataCsvFileUploader.class);
 	
-	private final EventFileService eventsFileService;
+	private final EventFileService eventFileService;
 	
-	public DataCsvFileUploader(EventFileService eventsFileService) {
-		this.eventsFileService = eventsFileService;
+	public DataCsvFileUploader(EventFileService eventFileService) {
+		this.eventFileService = eventFileService;
 	}
 	
 	@Operation(summary = "Import Data",
@@ -52,8 +52,10 @@ public class DataCsvFileUploader {
 		String message = "";
 		if (CSVHelper.hasCSVFormat(file)) {
 		try {
-			eventsFileService.save(file);
+			LOGGER.info("Starting CSV file upload: Processing the uploaded file for Event data.");
+			eventFileService.save(file);
 			message = "File Uploaded Successfully. " + file.getOriginalFilename();
+			LOGGER.info("File uploaded successfully: {} ", file.getOriginalFilename());
 			return ResponseEntity.ok()
 					.contentType(MediaType.MULTIPART_FORM_DATA)
 					.body(message);

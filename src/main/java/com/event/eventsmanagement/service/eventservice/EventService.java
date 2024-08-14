@@ -21,12 +21,12 @@ import com.event.eventsmanagement.eventrepository.EventRepository;
 import com.event.eventsmanagement.externalapis.DistanceCalculationAPI;
 import com.event.eventsmanagement.externalapis.WeatherAPI;
 
-@Service(value = "EventsService")
+@Service(value = "EventService")
 public final class EventService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EventService.class); 
 
-	private final EventRepository eventsRepository;
+	private final EventRepository eventRepository;
 	
 	private final WeatherAPI weatherAPI;
 	
@@ -34,13 +34,13 @@ public final class EventService {
 	
 	public EventService(EventRepository repository, WeatherAPI weatherAPI,
 			DistanceCalculationAPI calculationAPI) {
-		this.eventsRepository = repository;
+		this.eventRepository=repository;
 		this.weatherAPI=weatherAPI;
 		this.calculationAPI=calculationAPI;
 	}
 
 	public final Event saveEvent(Event events) {
-		Event savedEvents = eventsRepository.save(events);
+		Event savedEvents = eventRepository.save(events);
 		logger.info("Successfully inserted a new event into the database. "
 				+ "Event ID: {}, Event Name: {}, City: {}, Date: {}, Time: {}, Latitude: {}, Longitude: {}",
 				savedEvents.getId(), savedEvents.getEventName(), savedEvents.getCityName(),
@@ -57,7 +57,7 @@ public final class EventService {
 				eventsRequest.getTime(),
 				eventsRequest.getLatitude(),
 				eventsRequest.getLongitude());
-		Event savedEvents = eventsRepository.save(events2);
+		Event savedEvents = eventRepository.save(events2);
 		logger.info("Successfully inserted a new event into the database. "
 				+ "Event Name: {}, City: {}, Date: {}, Time: {}, Latitude: {}, Longitude: {}",
 				savedEvents.getEventName(), savedEvents.getCityName(),
@@ -71,11 +71,11 @@ public final class EventService {
 				savedEvents.getLatitude(),
 				savedEvents.getLongitude());
 	}
-
+	
 	public final EventFinderResponse findEvents(double userLatitude, double userLongitude, LocalDate date, int page,
 			int size) {
 		logger.info("Fetching events within date range from {} to {} with page number {} and size {} ", date, date.plusDays(14), page, size);
-		Page<Event> eventsPage = eventsRepository.findByEventsWithinDateRange(date, date.plusDays(14),
+		Page<Event> eventsPage = eventRepository.findByEventsWithinDateRange1(date, date.plusDays(14),
 				PageRequest.of(page - 1, size, Sort.by("date").ascending()));
 		/**
 		 * Can use parallerStream() also -> but because of the smaller dataset here we
