@@ -429,6 +429,18 @@ curl -X POST "http://localhost:8090/api/v1/events/events" \
 - **Maven Commands**:
   ![Screen Shot of useful Maven Commands](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/maven_commands.png?raw=true)
 
+## PostgreSQL Custom Function Integration
+
+- **Implemented a custom PostgreSQL Function called `function_find_events_within_date_range` to fetch events within the specified date range.**
+
+- **For more Information checkout the image `PostgreSQL_Custom_Function.jpeg` in `images` folder**
+
+![Screen Shot of Custom Function Implementation](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/PostgreSQL_Custom_Function.jpeg?raw=true)
+
+- **Direct Link for Repository Layer**: [Custom Function Code Modified](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/src/main/java/com/event/eventsmanagement/eventrepository/EventRepository.java)
+
+- **Direct Link for the Image in `images` folder**: [PostgreSQL_Custom_Function.jpeg](https://github.com/BHIMAVARAPU-MANOJ-KUMAR/Event-Management-System-GyanGrove-Backend-Intern-Assignment/blob/main/images/PostgreSQL_Custom_Function.jpeg)
+
 ## Contribution
 
 Contributions are welcome! Please fork the repository and submit a pull request for review. Connect me on [LinkedIn](https://in.linkedin.com/in/bhimavarapu-manoj-kumar-reddy)
